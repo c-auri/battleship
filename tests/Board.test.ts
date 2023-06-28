@@ -45,6 +45,30 @@ describe('place', () => {
             expect(() => board.place(ship, 3, 7, 'vertical'))
                 .toThrow('Invalid position')
         })
+        test('when ship is placed on top of existing ship\s head', () => {
+            const board = new Board()
+            const existingShip = new Ship(4)
+            const newShip = new Ship(4)
+            board.place(existingShip, 3, 3, 'horizontal')
+            expect(() => board.place(newShip, 3, 3, 'vertical'))
+                .toThrow('Can not place ship on top of another ship')
+        })
+        test('when ship is placed on top of existing ship\s body', () => {
+            const board = new Board()
+            const existingShip = new Ship(4)
+            const newShip = new Ship(4)
+            board.place(existingShip, 3, 3, 'horizontal')
+            expect(() => board.place(newShip, 5, 3, 'vertical'))
+                .toThrow('Can not place ship on top of another ship')
+        })
+        test('when ship is placed on top of existing ship\'s tail', () => {
+            const board = new Board()
+            const existingShip = new Ship(4)
+            const newShip = new Ship(4)
+            board.place(existingShip, 3, 3, 'horizontal')
+            expect(() => board.place(newShip, 6, 3, 'vertical'))
+                .toThrow('Can not place ship on top of another ship')
+        })
     })
     describe('does not throw', () => {
         test('when horizontal ship is placed just on the edge', () => {
