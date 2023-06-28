@@ -1,4 +1,3 @@
-import { exportAllDeclaration } from "@babel/types"
 import { Ship } from "../src/ts/Ship"
 
 describe('constructor', () => {

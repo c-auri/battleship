@@ -13,12 +13,12 @@ export class Board {
 
     constructor() {
         this.#ships = []
-        this.#cells = new Array()
+        this.#cells = []
 
         for (let i = 0; i < Board.#SIZE; i++) {
-            const row = new Array()
+            const row = []
             for (let j = 0; j < Board.#SIZE; j++) {
-                row.push({ shipId: undefined, gotAttacked: false })
+                row.push({ shipId: -1, gotAttacked: false })
             }
             this.#cells.push(row)
         }
@@ -59,7 +59,7 @@ export class Board {
 
         cell.gotAttacked = true
 
-        if (cell.shipId !== undefined) {
+        if (cell.shipId >= 0) {
             const ship = this.#ships[cell.shipId]
             ship.hit()
             return { isShip: true, isSunk: ship.isSunk }
