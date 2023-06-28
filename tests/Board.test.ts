@@ -1,5 +1,5 @@
-import { Board } from "../src/ts/Board"
-import { Ship } from "../src/ts/Ship"
+import { Board } from "../src/ts/model/Board"
+import { Ship } from "../src/ts/model/Ship"
 
 describe('constructor', () => {
     test('does not throw', () => {
