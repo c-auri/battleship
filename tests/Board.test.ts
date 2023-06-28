@@ -77,11 +77,62 @@ describe('receiveAttack', () => {
         })
     })
     describe('responds is no ship', () => {
-        test('when missed', () => {
+        test('for empty board', () => {
             const board = new Board()
-            board.place(new Ship(2), 2, 3, 'vertical')
-            const response = board.attack(3, 4)
+            const response = board.attack(1, 3)
             expect(response.isShip).toBe(false)
+        })
+        test('when missing by a large margin', () => {
+            const board = new Board()
+            board.place(new Ship(3), 2, 3, 'horizontal')
+            const response = board.attack(7, 8)
+            expect(response.isShip).toBe(false)
+        })
+        test('when hitting in front of head of a horizontal  ship', () => {
+            const board = new Board()
+            board.place(new Ship(3), 2, 3, 'horizontal')
+            const response = board.attack(1, 3)
+            expect(response.isShip).toBe(false)
+        })
+        test('when hitting in front of head of a vertical  ship', () => {
+            const board = new Board()
+            board.place(new Ship(3), 2, 3, 'vertical')
+            const response = board.attack(2, 2)
+            expect(response.isShip).toBe(false)
+        })
+        test('when hitting in back of tail of a horizontal  ship', () => {
+            const board = new Board()
+            board.place(new Ship(3), 2, 3, 'horizontal')
+            const response = board.attack(5, 3)
+            expect(response.isShip).toBe(false)
+        })
+        test('when hitting in back of tail of a vertical  ship', () => {
+            const board = new Board()
+            board.place(new Ship(3), 2, 3, 'vertical')
+            const response = board.attack(2, 6)
+            expect(response.isShip).toBe(false)
+        })
+        test('when hitting at the side of a horizontal  ship', () => {
+            const board = new Board()
+            board.place(new Ship(3), 2, 3, 'horizontal')
+
+            for (let i = 0; i < 3; i++) {
+                const rightResponse = board.attack(2 + i, 4)
+                const leftResponse = board.attack(2 + i, 2)
+                expect(leftResponse.isShip).toBe(false)
+                expect(rightResponse.isShip).toBe(false)
+            }
+        })
+        test('when hitting at the side of a vertical  ship', () => {
+            const board = new Board()
+            board.place(new Ship(3), 2, 3, 'vertical')
+
+            for (let i = 0; i < 3; i++) {
+                const rightResponse = board.attack(1, 3 + i)
+                const leftResponse = board.attack(3, 3 + i)
+                expect(leftResponse.isShip).toBe(false)
+                expect(rightResponse.isShip).toBe(false)
+            }
         })
     })
     describe('responds is ship', () => {
@@ -91,16 +142,28 @@ describe('receiveAttack', () => {
             const response = board.attack(2, 3)
             expect(response.isShip).toBe(true)
         })
-        test('when hitting non-placement coordinate of a horizontal  ship', () => {
+        test('when hitting body of a horizontal  ship', () => {
             const board = new Board()
-            board.place(new Ship(2), 2, 3, 'horizontal')
+            board.place(new Ship(3), 2, 3, 'horizontal')
+            const response = board.attack(3, 3)
+            expect(response.isShip).toBe(true)
+        })
+        test('when hitting body of a vertical  ship', () => {
+            const board = new Board()
+            board.place(new Ship(3), 2, 3, 'vertical')
             const response = board.attack(2, 4)
             expect(response.isShip).toBe(true)
         })
-        test('when hitting non-placement coordinate of a vertical  ship', () => {
+        test('when hitting tail of a horizontal  ship', () => {
             const board = new Board()
-            board.place(new Ship(2), 2, 3, 'vertical')
-            const response = board.attack(3, 3)
+            board.place(new Ship(3), 2, 3, 'horizontal')
+            const response = board.attack(4, 3)
+            expect(response.isShip).toBe(true)
+        })
+        test('when hitting tail of a vertical  ship', () => {
+            const board = new Board()
+            board.place(new Ship(3), 2, 3, 'vertical')
+            const response = board.attack(2, 5)
             expect(response.isShip).toBe(true)
         })
     })
@@ -123,7 +186,7 @@ describe('receiveAttack', () => {
             const board = new Board()
             board.place(new Ship(2), 2, 3, 'vertical')
             board.attack(2, 3)
-            const response = board.attack(3, 3)
+            const response = board.attack(2, 4)
             expect(response.isSunk).toBe(true)
         })
     })
@@ -170,8 +233,8 @@ describe('allAreSunk', () => {
             const board = new Board()
             board.place(new Ship(3), 1, 3, 'horizontal')
             board.attack(1, 3)
-            board.attack(1, 4)
-            board.attack(1, 5)
+            board.attack(2, 3)
+            board.attack(3, 3)
             expect(board.allAreSunk).toBe(true)
         })
     })

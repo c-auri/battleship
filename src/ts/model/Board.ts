@@ -41,9 +41,9 @@ export class Board {
 
         for (let i = 0; i < ship.length; i++) {
             if (orientation === 'horizontal') {
-                this.#cells[x][y + i].shipId = id
-            } else {
                 this.#cells[x + i][y].shipId = id
+            } else {
+                this.#cells[x][y + i].shipId = id
             }
         }
     }
