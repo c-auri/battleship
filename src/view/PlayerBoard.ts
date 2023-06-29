@@ -37,6 +37,7 @@ function attack(event: Event) {
 
     if (response.isShip) {
         cell.classList.add('ship')
+        cell.classList.add('ship--computer')
 
         if (response.isSunk) {
             uncover(cell)

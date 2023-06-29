@@ -16,6 +16,13 @@ body {
     background-color: var(--clr-white);
 }
 
+main {
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 .board {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
@@ -41,8 +48,15 @@ body {
 }
 
 .ship {
-    border-color: var(--clr-red);
-    background-color: var(--clr-red);
+    &--computer {
+        border-color: var(--clr-red);
+        background-color: var(--clr-red);
+    }
+
+    &--player {
+        border-color: var(--clr-green);
+        background-color: var(--clr-green);
+    }
 
     &--sunk {
         border-color: var(--clr-medium-gray);

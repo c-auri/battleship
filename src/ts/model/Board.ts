@@ -32,6 +32,10 @@ export class Board {
         return this.#ships.filter(ship => !ship.isSunk).length === 0
     }
 
+    isShip(x: number, y: number) {
+        return this.#cells[x][y].shipId >= 0
+    }
+
     place(ship: Ship, x: number, y: number, orientation: Orientation) {
         this.#validateCoordinate(x, y)
         this.#validatePlacement(ship, x, y, orientation)
