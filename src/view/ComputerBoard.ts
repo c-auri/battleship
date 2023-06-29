@@ -1,3 +1,4 @@
+import { handleGameOver, makeComputerMove } from "../Controller"
 import { Board } from "../ts/model/Board"
 import { Ship } from "../ts/model/Ship"
 import { uncover } from "./Uncover"
@@ -10,56 +11,48 @@ let cells: Element[]
 export function initializeComputerBoard() {
     divBoard.innerHTML = ''
     board = new Board()
-    board.place(new Ship(4), 4, 5, 'horizontal')
-    board.place(new Ship(2), 2, 2, 'vertical')
 
     for (let y = 0; y < 10; y++) {
         for (let x = 0; x < 10; x++) {
             const cell = document.createElement('div')
             cell.classList.add('cell')
-            cell.classList.add('cell--inactive')
             cell.setAttribute('data-x', '' + x)
             cell.setAttribute('data-y', '' + y)
-            if (board.isShip(x, y)) {
-                cell.classList.add('ship')
-                cell.classList.add('ship--player')
-            }
+            cell.addEventListener('click', attack)
             divBoard?.appendChild(cell)
         }
     }
 
     cells = Array.from(divBoard.querySelectorAll('.cell'))
+
+    board.place(new Ship(4), 4, 5, 'horizontal')
+    board.place(new Ship(2), 2, 2, 'vertical')
 }
 
-export function computerWon() {
+export function playerWon() {
     return board.allAreSunk
 }
 
-export function toggleComputerBoard() {
+export function togglePlayerBoard() {
     for (const cell of cells) {
         cell.classList.toggle('cell--inactive')
     }
 }
 
-export function attackPlayer() {
-    let x: number
-    let y: number
+function attack(event: Event) {
+    const cell = event.target as Element
 
-    do {
-        x = Math.round(Math.random() * 9)
-        y = Math.round(Math.random() * 9)
-    } while(board.gotAttacked(x, y))
+    if (cell.classList.contains('cell--inactive') || cell.classList.contains('cell--attacked')) {
+        return
+    }
 
-    return attack(x, y)
-}
+    const x = cell.getAttribute('data-x') as string
+    const y = cell.getAttribute('data-y') as string
 
-function attack(x: number, y: number) {
-    const cell = getCell(x, y)
     const response = board.attack(+x, +y)
 
     if (response.isShip) {
         cell.classList.add('ship')
-        cell.classList.add('ship--player')
 
         if (response.isSunk) {
             uncover(board, cells, cell)
@@ -70,11 +63,9 @@ function attack(x: number, y: number) {
 
     cell.classList.add('cell--attacked')
 
-    return board.allAreSunk
-}
-
-function getCell(x: number, y: number) {
-    return cells.find(cell =>
-        cell.getAttribute('data-x') === ''+x &&
-        cell.getAttribute('data-y') === ''+y) as HTMLDivElement
+    if (board.allAreSunk) {
+        handleGameOver()
+    } else {
+        makeComputerMove()
+    }
 }

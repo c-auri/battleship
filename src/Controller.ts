@@ -1,6 +1,6 @@
-import { computerWon, attackPlayer, initializeComputerBoard, toggleComputerBoard } from './view/ComputerBoard'
+import { computerWon, attackPlayer, initializePlayerBoard, toggleComputerBoard } from './view/PlayerBoard'
 import { displayGameState } from './view/Display'
-import { playerWon, initializePlayerBoard, togglePlayerBoard } from './view/PlayerBoard'
+import { playerWon, initializeComputerBoard, togglePlayerBoard } from './view/ComputerBoard'
 
 const buttonStart = document.getElementById('start-over')
 let gameIsOver = false
@@ -8,8 +8,8 @@ let gameIsOver = false
 buttonStart?.addEventListener('click', () => initialize())
 
 export function initialize() {
-    initializeComputerBoard()
     initializePlayerBoard()
+    initializeComputerBoard()
     displayGameState('Player turn')
 }
 
