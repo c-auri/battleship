@@ -8,8 +8,9 @@ let gameIsOver = false
 buttonStart?.addEventListener('click', () => initialize())
 
 export function initialize() {
-    initializePlayerBoard()
-    initializeComputerBoard()
+    const shipLengths = [ 5, 4, 3, 3, 2, 2 ]
+    initializePlayerBoard(shipLengths)
+    initializeComputerBoard(shipLengths)
     displayGameState('Player turn')
 }
 

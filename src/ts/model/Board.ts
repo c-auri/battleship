@@ -32,6 +32,23 @@ export class Board {
         return this.#ships.filter(ship => !ship.isSunk).length === 0
     }
 
+    randomize(lengths: number[]) {
+        for (const length of lengths) {
+            const ship = new Ship(length)
+            let x: number
+            let y: number
+            let orientation: Orientation
+
+            do {
+                x = Math.round(Math.random() * 9)
+                y = Math.round(Math.random() * 9)
+                orientation = Math.random() > .5 ? 'horizontal' : 'vertical'
+            } while(!this.#isValidPlacement(ship, x, y, orientation))
+
+            this.place(ship, x, y, orientation)
+        }
+    }
+
     isShip(x: number, y: number) {
         return this.#cells[x][y].shipId >= 0
     }

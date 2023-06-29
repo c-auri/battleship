@@ -1,5 +1,4 @@
 import { Board } from "../ts/model/Board"
-import { Ship } from "../ts/model/Ship"
 import { uncover } from "./Uncover"
 
 const divBoard = document.querySelector('#player-board') as HTMLDivElement
@@ -7,11 +6,10 @@ const divBoard = document.querySelector('#player-board') as HTMLDivElement
 let board: Board
 let cells: Element[]
 
-export function initializePlayerBoard() {
+export function initializePlayerBoard(shipLengths: number[]) {
     divBoard.innerHTML = ''
     board = new Board()
-    board.place(new Ship(4), 4, 5, 'horizontal')
-    board.place(new Ship(2), 2, 2, 'vertical')
+    board.randomize(shipLengths)
 
     for (let y = 0; y < 10; y++) {
         for (let x = 0; x < 10; x++) {
