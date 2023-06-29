@@ -1,9 +1,8 @@
 * {
-    --clr-white: whitesmoke;
-    --clr-light-gray: gainsboro;
-    --clr-medium-gray: lightgray;
-    --clr-dark-gray: gray;
-    --clr-black: #000;
+    --clr-white: gainsboro;
+    --clr-light-gray: darkgray;
+    --clr-medium-gray: gray;
+    --clr-dark-gray: dimgray;
     --clr-red: indianred;
     --clr-green: seagreen;
     --clr-blue: lightsteelblue;
@@ -14,7 +13,7 @@ body {
     min-height: 100vh;
     display: grid;
     place-items: center;
-    background-color: var(--clr-light-gray);
+    background-color: var(--clr-white);
 }
 
 .board {
@@ -26,7 +25,7 @@ body {
 .cell {
     aspect-ratio: 1;
     height: 2rem;
-    border: 1px solid var(--clr-medium-gray);
+    border: 1px solid var(--clr-light-gray);
 
     &:hover {
         cursor: crosshair;
@@ -46,8 +45,8 @@ body {
     background-color: var(--clr-red);
 
     &--sunk {
-        border-color: var(--clr-dark-gray);
-        background-color: var(--clr-dark-gray);
+        border-color: var(--clr-medium-gray);
+        background-color: var(--clr-medium-gray);
     }
 }
 
