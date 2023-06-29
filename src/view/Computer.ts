@@ -1,14 +1,15 @@
+import { handleGameOver, makeComputerMove } from "../Controller"
 import { Board } from "../ts/model/Board"
 import { initializeShips, updateShips } from "./Ships"
 import { uncover } from "./Uncover"
 
-const divBoard = document.querySelector('#player-board') as HTMLDivElement
-const divShips = document.querySelector('#player-ships') as HTMLDivElement
+const divBoard = document.querySelector('#computer-board') as HTMLDivElement
+const divShips = document.querySelector('#computer-ships') as HTMLDivElement
 
 let board: Board
 let cells: Element[]
 
-export function initializePlayerBoard(shipLengths: number[]) {
+export function initializeComputer(shipLengths: number[]) {
     divBoard.innerHTML = ''
     board = new Board()
     board.randomize(shipLengths)
@@ -17,13 +18,9 @@ export function initializePlayerBoard(shipLengths: number[]) {
         for (let x = 0; x < 10; x++) {
             const cell = document.createElement('div')
             cell.classList.add('cell')
-            cell.classList.add('cell--inactive')
             cell.setAttribute('data-x', '' + x)
             cell.setAttribute('data-y', '' + y)
-            if (board.isShip(x, y)) {
-                cell.classList.add('cell--ship')
-                cell.classList.add('cell--player')
-            }
+            cell.addEventListener('click', attack)
             divBoard?.appendChild(cell)
         }
     }
@@ -33,7 +30,7 @@ export function initializePlayerBoard(shipLengths: number[]) {
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
 
-export function computerWon() {
+export function playerWon() {
     return board.allAreSunk
 }
 
@@ -43,28 +40,20 @@ export function toggleComputerBoard() {
     }
 }
 
-export function attackPlayer() {
-    let x: number
-    let y: number
+function attack(event: Event) {
+    const cell = event.target as Element
 
-    do {
-        x = Math.round(Math.random() * 9)
-        y = Math.round(Math.random() * 9)
-    } while(board.gotAttacked(x, y))
+    if (cell.classList.contains('cell--inactive') || cell.classList.contains('cell--attacked')) {
+        return
+    }
 
-    const wasHit = attack(x, y)
-    updateShips(board.ships, divShips)
+    const x = cell.getAttribute('data-x') as string
+    const y = cell.getAttribute('data-y') as string
 
-    return wasHit
-}
-
-function attack(x: number, y: number) {
-    const cell = getCell(x, y)
     const response = board.attack(+x, +y)
 
     if (response.isShip) {
         cell.classList.add('cell--ship')
-        cell.classList.add('cell--player')
 
         if (response.isSunk) {
             uncover(board, cells, cell)
@@ -74,12 +63,11 @@ function attack(x: number, y: number) {
     }
 
     cell.classList.add('cell--attacked')
+    updateShips(board.ships, divShips)
 
-    return board.allAreSunk
-}
-
-function getCell(x: number, y: number) {
-    return cells.find(cell =>
-        cell.getAttribute('data-x') === ''+x &&
-        cell.getAttribute('data-y') === ''+y) as HTMLDivElement
+    if (board.allAreSunk) {
+        handleGameOver()
+    } else {
+        makeComputerMove()
+    }
 }

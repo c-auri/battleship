@@ -1,6 +1,6 @@
-import { computerWon, attackPlayer, initializePlayerBoard, toggleComputerBoard } from './view/PlayerBoard'
+import { computerWon, attackPlayer, initializePlayer, togglePlayerBoard } from './view/Player'
 import { displayGameState } from './view/Display'
-import { playerWon, initializeComputerBoard, togglePlayerBoard } from './view/ComputerBoard'
+import { playerWon, initializeComputer, toggleComputerBoard } from './view/Computer'
 
 const buttonStart = document.getElementById('start-over')
 let gameIsOver = false
@@ -9,8 +9,8 @@ buttonStart?.addEventListener('click', () => initialize())
 
 export function initialize() {
     const shipLengths = [ 5, 4, 3, 3, 2, 2 ]
-    initializePlayerBoard(shipLengths)
-    initializeComputerBoard(shipLengths)
+    initializePlayer(shipLengths)
+    initializeComputer(shipLengths)
     displayGameState('Player turn')
 }
 
@@ -38,7 +38,7 @@ export function handleGameOver() {
     }
 
     if (playerWon()) {
-        togglePlayerBoard()
+        toggleComputerBoard()
         displayGameState('Player won!')
     }
 
