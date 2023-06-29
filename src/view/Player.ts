@@ -29,6 +29,7 @@ export function initializePlayer(shipLengths: number[]) {
     }
 
     initializeShips(board.ships, divShips)
+    divShips.classList.toggle('ships--inactive')
 
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
@@ -41,6 +42,8 @@ export function togglePlayerBoard() {
     for (const cell of cells) {
         cell.classList.toggle('cell--inactive')
     }
+
+    divShips.classList.toggle('ships--inactive')
 }
 
 export function attackPlayer() {

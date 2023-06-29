@@ -38,6 +38,8 @@ export function toggleComputerBoard() {
     for (const cell of cells) {
         cell.classList.toggle('cell--inactive')
     }
+
+    divShips.classList.toggle('ships--inactive')
 }
 
 function attack(event: Event) {
