@@ -1,8 +1,8 @@
 * {
     --clr-white: white;
     --clr-almost-white: whitesmoke;
-    --clr-light-gray: darkgray;
-    --clr-medium-gray: gray;
+    --clr-light-gray: silver;
+    --clr-medium-gray: darkgray;
     --clr-dark-gray: dimgray;
     --clr-red: indianred;
     --clr-green: seagreen;
@@ -30,7 +30,7 @@ main {
 }
 
 .display {
-    border: 1px solid var(--clr-light-gray);
+    border: 1px solid var(--clr-medium-gray);
     border-radius: .5rem;
     padding: 1rem;
     width: 15rem;
@@ -90,7 +90,7 @@ main {
 .cell {
     aspect-ratio: 1;
     height: 2rem;
-    border: 1px solid var(--clr-light-gray);
+    border: 1px solid var(--clr-medium-gray);
 
     &:hover {
         cursor: crosshair;
@@ -152,7 +152,7 @@ main {
 
     &--sunk .square {
         opacity: var(--opacity);
-        background-color: var(--clr-light-gray) !important;
+        background-color: var(--clr-medium-gray) !important;
     }
 }
 
@@ -177,7 +177,7 @@ main {
 
         &:hover {
             cursor: default;
-            border-color: var(--clr-light-gray);
+            border-color: var(--clr-medium-gray);
         }
     }
 
