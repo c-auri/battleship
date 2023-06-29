@@ -2,7 +2,7 @@
     --clr-white: whitesmoke;
     --clr-light-gray: gainsboro;
     --clr-medium-gray: lightgray;
-    --clr-dark-gray: darkgray;
+    --clr-dark-gray: gray;
     --clr-black: #000;
     --clr-red: indianred;
     --clr-green: seagreen;
@@ -44,6 +44,11 @@ body {
 .ship {
     border-color: var(--clr-red);
     background-color: var(--clr-red);
+
+    &--sunk {
+        border-color: var(--clr-dark-gray);
+        background-color: var(--clr-dark-gray);
+    }
 }
 
 .water {
