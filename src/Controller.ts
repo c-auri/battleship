@@ -37,6 +37,7 @@ export function handleGameOver() {
     }
 
     if (playerWon()) {
+        togglePlayerBoard()
         displayGameState('Player won!')
     }
 
