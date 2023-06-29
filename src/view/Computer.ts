@@ -3,6 +3,7 @@ import { Board } from "../ts/model/Board"
 import { initializeShips, updateShips } from "./Ships"
 import { uncover } from "./Uncover"
 
+const divSide = document.querySelector('#computer-side') as HTMLDivElement
 const divBoard = document.querySelector('#computer-board') as HTMLDivElement
 const divShips = document.querySelector('#computer-ships') as HTMLDivElement
 
@@ -35,17 +36,13 @@ export function playerWon() {
 }
 
 export function toggleComputerBoard() {
-    for (const cell of cells) {
-        cell.classList.toggle('cell--inactive')
-    }
-
-    divShips.classList.toggle('ships--inactive')
+    divSide.classList.toggle('inactive')
 }
 
 function attack(event: Event) {
     const cell = event.target as Element
 
-    if (cell.classList.contains('cell--inactive') || cell.classList.contains('cell--attacked')) {
+    if (divSide.classList.contains('inactive') || cell.classList.contains('cell--attacked')) {
         return
     }
 

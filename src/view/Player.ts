@@ -2,6 +2,7 @@ import { Board } from "../ts/model/Board"
 import { initializeShips, updateShips } from "./Ships"
 import { uncover } from "./Uncover"
 
+const divSide = document.querySelector('#player-side') as HTMLDivElement
 const divBoard = document.querySelector('#player-board') as HTMLDivElement
 const divShips = document.querySelector('#player-ships') as HTMLDivElement
 
@@ -17,7 +18,6 @@ export function initializePlayer(shipLengths: number[]) {
         for (let x = 0; x < 10; x++) {
             const cell = document.createElement('div')
             cell.classList.add('cell')
-            cell.classList.add('cell--inactive')
             cell.setAttribute('data-x', '' + x)
             cell.setAttribute('data-y', '' + y)
             if (board.isShip(x, y)) {
@@ -29,7 +29,7 @@ export function initializePlayer(shipLengths: number[]) {
     }
 
     initializeShips(board.ships, divShips)
-    divShips.classList.add('ships--inactive')
+    divSide.classList.add('inactive')
 
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
@@ -39,11 +39,7 @@ export function computerWon() {
 }
 
 export function togglePlayerBoard() {
-    for (const cell of cells) {
-        cell.classList.toggle('cell--inactive')
-    }
-
-    divShips.classList.toggle('ships--inactive')
+    divSide.classList.toggle('inactive')
 }
 
 export function attackPlayer() {
