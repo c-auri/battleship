@@ -79,6 +79,11 @@ main {
         border-color: var(--clr-dark-gray);
     }
 
+    &--player {
+        border-color: var(--clr-green);
+        background-color: var(--clr-green);
+    }
+
     &--attacked {
         border-color: var(--clr-red);
         background-color: var(--clr-red);
@@ -87,6 +92,11 @@ main {
             cursor: default;
             border-color: transparent;
         }
+    }
+
+    &--sunk {
+        border-color: var(--clr-medium-gray);
+        background-color: var(--clr-medium-gray);
     }
 
     &--inactive {
@@ -99,24 +109,12 @@ main {
     }
 }
 
-.ship {
-    &--player {
-        border-color: var(--clr-green);
-        background-color: var(--clr-green);
-    }
-
-    &--sunk {
-        border-color: var(--clr-medium-gray);
-        background-color: var(--clr-medium-gray);
-    }
-}
-
-.cell--attacked.ship--player {
+.cell--attacked.cell--player {
     border-color: var(--clr-red);
     background-color: var(--clr-red);
 }
 
-.ship--player.ship--sunk {
+.cell--player.cell--sunk {
     border-color: var(--clr-medium-gray);
     background-color: var(--clr-medium-gray);
 }

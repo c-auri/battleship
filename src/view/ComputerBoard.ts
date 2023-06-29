@@ -49,7 +49,7 @@ function attack(event: Event) {
     const response = board.attack(+x, +y)
 
     if (response.isShip) {
-        cell.classList.add('ship')
+        cell.classList.add('cell--ship')
 
         if (response.isSunk) {
             uncover(board, cells, cell)

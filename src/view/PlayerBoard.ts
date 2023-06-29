@@ -19,8 +19,8 @@ export function initializePlayerBoard(shipLengths: number[]) {
             cell.setAttribute('data-x', '' + x)
             cell.setAttribute('data-y', '' + y)
             if (board.isShip(x, y)) {
-                cell.classList.add('ship')
-                cell.classList.add('ship--player')
+                cell.classList.add('cell--ship')
+                cell.classList.add('cell--player')
             }
             divBoard?.appendChild(cell)
         }
@@ -56,8 +56,8 @@ function attack(x: number, y: number) {
     const response = board.attack(+x, +y)
 
     if (response.isShip) {
-        cell.classList.add('ship')
-        cell.classList.add('ship--player')
+        cell.classList.add('cell--ship')
+        cell.classList.add('cell--player')
 
         if (response.isSunk) {
             uncover(board, cells, cell)
