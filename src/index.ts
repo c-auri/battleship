@@ -1,6 +1,5 @@
 import './styles.scss'
-import { initializeComputerBoard } from './view/ComputerBoard'
-import { initializePlayerBoard } from './view/PlayerBoard'
+import { initialize } from './Controller'
 
-initializeComputerBoard()
-initializePlayerBoard()
+
+initialize()
