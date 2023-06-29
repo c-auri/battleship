@@ -37,13 +37,13 @@ describe('place', () => {
             const board = new Board()
             const ship = new Ship(4)
             expect(() => board.place(ship, 7, 3, 'horizontal'))
-                .toThrow('Invalid position')
+                .toThrow('Invalid ship placement')
         })
         test('when vertical ship is placed too far down', () => {
             const board = new Board()
             const ship = new Ship(4)
             expect(() => board.place(ship, 3, 7, 'vertical'))
-                .toThrow('Invalid position')
+                .toThrow('Invalid ship placement')
         })
         test('when ship is placed on top of existing ship\s head', () => {
             const board = new Board()
@@ -51,7 +51,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 3, 3, 'horizontal')
             expect(() => board.place(newShip, 3, 3, 'vertical'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
         test('when ship is placed on top of existing ship\s body', () => {
             const board = new Board()
@@ -59,7 +59,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 3, 3, 'horizontal')
             expect(() => board.place(newShip, 5, 3, 'vertical'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
         test('when ship is placed on top of existing ship\'s tail', () => {
             const board = new Board()
@@ -67,7 +67,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 3, 3, 'horizontal')
             expect(() => board.place(newShip, 6, 3, 'vertical'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
         test('when horizontal ship is placed directly above to existing ship', () => {
             const board = new Board()
@@ -75,7 +75,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 5, 3, 'vertical')
             expect(() => board.place(newShip, 2, 2, 'horizontal'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
         test('when horizontal ship is placed directly below to existing ship', () => {
             const board = new Board()
@@ -83,7 +83,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 5, 3, 'vertical')
             expect(() => board.place(newShip, 3, 7, 'horizontal'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
         test('when horizontal ship is placed directly left to existing ship', () => {
             const board = new Board()
@@ -91,7 +91,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 5, 3, 'vertical')
             expect(() => board.place(newShip, 1, 4, 'horizontal'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
         test('when horizontal ship is placed directly right to existing ship', () => {
             const board = new Board()
@@ -99,7 +99,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 5, 3, 'vertical')
             expect(() => board.place(newShip, 6, 4, 'horizontal'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
         test('when vertical ship is placed directly above existing ship', () => {
             const board = new Board()
@@ -107,7 +107,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 3, 6, 'horizontal')
             expect(() => board.place(newShip, 4, 2, 'vertical'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
         test('when vertical ship is placed directly below existing ship', () => {
             const board = new Board()
@@ -115,7 +115,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 3, 3, 'horizontal')
             expect(() => board.place(newShip, 4, 4, 'vertical'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
         test('when vertical ship is placed directly left to existing ship', () => {
             const board = new Board()
@@ -123,7 +123,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 2, 2, 'horizontal')
             expect(() => board.place(newShip, 1, 0, 'vertical'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
         test('when vertical ship is placed directly right to existing ship', () => {
             const board = new Board()
@@ -131,7 +131,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 2, 2, 'horizontal')
             expect(() => board.place(newShip, 6, 0, 'vertical'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
         test('when ship is placed into cross neighborhood of existing ship', () => {
             const board = new Board()
@@ -139,7 +139,7 @@ describe('place', () => {
             const newShip = new Ship(4)
             board.place(existingShip, 2, 2, 'horizontal')
             expect(() => board.place(newShip, 6, 3, 'vertical'))
-                .toThrow('Can not place ship too close to another ship')
+                .toThrow('Invalid ship placement')
         })
     })
     describe('does not throw', () => {

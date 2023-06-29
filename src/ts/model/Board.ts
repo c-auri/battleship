@@ -42,7 +42,10 @@ export class Board {
 
     place(ship: Ship, x: number, y: number, orientation: Orientation) {
         this.#validateCoordinate(x, y)
-        this.#validatePlacement(ship, x, y, orientation)
+
+        if (!this.#isValidPlacement(ship, x, y, orientation)) {
+            throw new Error('Invalid ship placement')
+        }
 
         this.#ships.push(ship)
         const id = this.#ships.length - 1
@@ -76,13 +79,7 @@ export class Board {
         }
     }
 
-    #validateCoordinate(x: number, y: number) {
-        if (x < 0 || y < 0 || x >= Board.#SIZE || y >= Board.#SIZE) {
-            throw new Error(`Invalid coordinate: ${x}, ${y}`)
-        }
-    }
-
-    #validatePlacement(
+    #isValidPlacement(
         ship: Ship,
         x: number,
         y: number,
@@ -91,7 +88,7 @@ export class Board {
         if ((orientation === 'horizontal' && x + ship.length > Board.#SIZE) ||
             (orientation === 'vertical' && y + ship.length > Board.#SIZE)
         ) {
-                throw new Error('Invalid position')
+            return false
         }
 
         for (let i = -1; i <= ship.length; i++) {
@@ -105,9 +102,17 @@ export class Board {
                 }
 
                 if (cell?.shipId >= 0) {
-                    throw new Error('Can not place ship too close to another ship')
+                    return false
                 }
             }
+        }
+
+        return true
+    }
+
+    #validateCoordinate(x: number, y: number) {
+        if (x < 0 || y < 0 || x >= Board.#SIZE || y >= Board.#SIZE) {
+            throw new Error(`Invalid coordinate: ${x}, ${y}`)
         }
     }
 }
