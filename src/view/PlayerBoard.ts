@@ -1,3 +1,4 @@
+import { makeComputerMove } from "../Controller"
 import { Board } from "../ts/model/Board"
 import { Ship } from "../ts/model/Ship"
 
@@ -23,10 +24,16 @@ export function initializePlayerBoard() {
     board.place(new Ship(2), 2, 2, 'vertical')
 }
 
+export function togglePlayerBoard() {
+    for (const cell of cells) {
+        cell.classList.toggle('cell--inactive')
+    }
+}
+
 function attack(event: Event) {
     const cell = event.target as Element
 
-    if (cell.classList.contains('cell--attacked')) {
+    if (cell.classList.contains('cell--inactive') || cell.classList.contains('cell--attacked')) {
         return
     }
 
@@ -37,7 +44,6 @@ function attack(event: Event) {
 
     if (response.isShip) {
         cell.classList.add('ship')
-        cell.classList.add('ship--computer')
 
         if (response.isSunk) {
             uncover(cell)
@@ -50,6 +56,8 @@ function attack(event: Event) {
 
     if (board.allAreSunk) {
         uncoverBoard()
+    } else {
+        makeComputerMove()
     }
 }
 

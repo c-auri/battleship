@@ -36,6 +36,10 @@ export class Board {
         return this.#cells[x][y].shipId >= 0
     }
 
+    gotAttacked(x: number, y: number) {
+        return this.#cells[x][y].gotAttacked
+    }
+
     place(ship: Ship, x: number, y: number, orientation: Orientation) {
         this.#validateCoordinate(x, y)
         this.#validatePlacement(ship, x, y, orientation)

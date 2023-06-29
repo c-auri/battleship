@@ -40,19 +40,26 @@ main {
     }
 
     &--attacked {
+        border-color: var(--clr-red);
+        background-color: var(--clr-red);
+
         &:hover {
             cursor: default;
             border-color: transparent;
         }
     }
+
+    &--inactive {
+        opacity: .6;
+
+        &:hover {
+            cursor: default;
+            border-color: var(--clr-gray);
+        }
+    }
 }
 
 .ship {
-    &--computer {
-        border-color: var(--clr-red);
-        background-color: var(--clr-red);
-    }
-
     &--player {
         border-color: var(--clr-green);
         background-color: var(--clr-green);
@@ -62,6 +69,11 @@ main {
         border-color: var(--clr-medium-gray);
         background-color: var(--clr-medium-gray);
     }
+}
+
+.cell--attacked.ship--player {
+    border-color: var(--clr-red);
+    background-color: var(--clr-red);
 }
 
 .water {
