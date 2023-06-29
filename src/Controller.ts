@@ -1,5 +1,5 @@
 import { computerWon, attackPlayer, initializePlayer, setPlayerOpacity } from './view/Player'
-import { displayGameState } from './view/Display'
+import { displayGameState, displayWinner } from './view/Display'
 import { playerWon, initializeComputer, setComputerOpacity, setPlayerActivity } from './view/Computer'
 
 const buttonStart = document.getElementById('start-over')
@@ -40,11 +40,11 @@ export function handleGameOver() {
     }
 
     if (playerWon()) {
-        displayGameState('Player won!')
+        displayWinner('Player')
         setPlayerActivity(false)
     }
 
     if (computerWon()) {
-        displayGameState('Computer won!')
+        displayWinner('Computer')
     }
 }

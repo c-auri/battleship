@@ -36,12 +36,22 @@ main {
     width: 15rem;
     display: flex;
     justify-content: center;
+    color: var(--clr-dark-gray);
     background-color: var(--clr-white);
+
+    &--won {
+        color: var(--clr-almost-white);
+        background-color: var(--clr-green);
+    }
+
+    &--lost {
+        color: var(--clr-almost-white);
+        background-color: var(--clr-red);
+    }
 }
 
 .game-state {
     font-size: 1.5rem;
-    color: var(--clr-dark-gray);
 }
 
 .boards {
