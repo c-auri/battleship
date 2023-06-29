@@ -36,8 +36,12 @@ export function playerWon() {
     return board.allAreSunk
 }
 
-export function toggleComputerOpacity() {
-    divSide.classList.toggle('opaque')
+export function setComputerOpacity(isOpaque: boolean) {
+    if (isOpaque) {
+        divSide.classList.add('opaque')
+    } else {
+        divSide.classList.remove('opaque')
+    }
 }
 
 export function setPlayerActivity(value: boolean) {

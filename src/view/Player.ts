@@ -38,8 +38,12 @@ export function computerWon() {
     return board.allAreSunk
 }
 
-export function togglePlayerOpacity() {
-    divSide.classList.toggle('opaque')
+export function setPlayerOpacity(isOpaque: boolean) {
+    if (isOpaque) {
+        divSide.classList.add('opaque')
+    } else {
+        divSide.classList.remove('opaque')
+    }
 }
 
 export function attackPlayer() {
