@@ -29,7 +29,7 @@ export function initializePlayer(shipLengths: number[]) {
     }
 
     initializeShips(board.ships, divShips)
-    divShips.classList.toggle('ships--inactive')
+    divShips.classList.add('ships--inactive')
 
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
