@@ -7,7 +7,7 @@ describe('constructor', () => {
             expect(() => new Ship(-1)).toThrow()
         })
         test('when provided length is too large', () => {
-            expect(() => new Ship(5)).toThrow()
+            expect(() => new Ship(6)).toThrow()
         })
     })
 })

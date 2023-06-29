@@ -1,6 +1,6 @@
 export class Ship {
     static #MIN_LENGTH = 1
-    static #MAX_LENGTH = 4
+    static #MAX_LENGTH = 5
 
     #length: number
     #numberOfHits: number
