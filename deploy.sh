@@ -3,8 +3,11 @@
 # just to get us all at the same starting point
 git checkout main
 
-# delete your build folder
-rm -rf dist/
+# delete all build articats except index.html
+shopt -s extglob
+cd dist/
+rm -v !("index.html")
+cd ..
 
 # prune worktree that might have been
 # deleted in the previous command
