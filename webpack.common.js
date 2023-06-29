@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
@@ -57,7 +56,6 @@ module.exports = {
       filename: '[name].[contenthash].css',
       chunkFilename: '[id].css'
     }),
-    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Battleship',
       template: './src/index.html'
