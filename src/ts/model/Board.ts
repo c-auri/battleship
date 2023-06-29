@@ -80,8 +80,8 @@ export class Board {
         y: number,
         orientation: Orientation
     ) {
-        if ((orientation === 'horizontal' && x + ship.length >= Board.#SIZE) ||
-            (orientation === 'vertical' && y + ship.length >= Board.#SIZE)
+        if ((orientation === 'horizontal' && x + ship.length > Board.#SIZE) ||
+            (orientation === 'vertical' && y + ship.length > Board.#SIZE)
         ) {
                 throw new Error('Invalid position')
         }

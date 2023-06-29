@@ -74,13 +74,13 @@ describe('place', () => {
         test('when horizontal ship is placed just on the edge', () => {
             const board = new Board()
             const ship = new Ship(4)
-            expect(() => board.place(ship, 5, 3, 'horizontal'))
+            expect(() => board.place(ship, 6, 3, 'horizontal'))
                 .not.toThrow()
         })
         test('when vertical ship is placed just on the edge', () => {
             const board = new Board()
             const ship = new Ship(4)
-            expect(() => board.place(ship, 3, 5, 'vertical'))
+            expect(() => board.place(ship, 3, 6, 'vertical'))
                 .not.toThrow()
         })
     })
