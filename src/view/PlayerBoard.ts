@@ -6,12 +6,12 @@ const board = new Board()
 let cells: Element[]
 
 export function initializePlayerBoard() {
-    for (let i = 0; i < 10; i++) {
-        for (let j = 0; j < 10; j++) {
+    for (let y = 0; y < 10; y++) {
+        for (let x = 0; x < 10; x++) {
             const cell = document.createElement('div')
             cell.classList.add('cell')
-            cell.setAttribute('data-x', '' + j)
-            cell.setAttribute('data-y', '' + i)
+            cell.setAttribute('data-x', '' + x)
+            cell.setAttribute('data-y', '' + y)
             cell.addEventListener('click', attack)
             divBoard?.appendChild(cell)
         }
