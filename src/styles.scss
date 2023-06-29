@@ -1,0 +1,57 @@
+* {
+    --clr-white: whitesmoke;
+    --clr-light-gray: gainsboro;
+    --clr-medium-gray: lightgray;
+    --clr-dark-gray: darkgray;
+    --clr-black: #000;
+    --clr-red: indianred;
+    --clr-green: seagreen;
+    --clr-blue: lightsteelblue;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background-color: var(--clr-light-gray);
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 0.1rem;
+}
+
+.cell {
+    aspect-ratio: 1;
+    height: 2rem;
+    border: 1px solid var(--clr-medium-gray);
+
+    &:hover {
+        cursor: crosshair;
+        border-color: var(--clr-dark-gray);
+    }
+
+    &--attacked {
+        &:hover {
+            cursor: default;
+            border-color: transparent;
+        }
+    }
+}
+
+.ship {
+    border-color: var(--clr-red);
+    background-color: var(--clr-red);
+}
+
+.water {
+    border-color: var(--clr-blue);
+    background-color: var(--clr-blue);
+
+    &:hover {
+        cursor: default;
+        border-color: transparent;
+    }
+}
