@@ -4,9 +4,8 @@ import { Board } from './ts/model/Board'
 
 const divBoard = document.querySelector('.board')
 const board = new Board()
-const cells = Array.from(document.querySelectorAll('.cell'))
-
 board.place(new Ship(4), 4, 5, 'horizontal')
+board.place(new Ship(2), 2, 2, 'vertical')
 
 
 for (let i = 0; i < 10; i++) {
@@ -19,6 +18,8 @@ for (let i = 0; i < 10; i++) {
         divBoard?.appendChild(cell)
     }
 }
+
+const cells = Array.from(document.querySelectorAll('.cell'))
 
 function attack(event: Event) {
     const cell = event.target as Element
@@ -34,6 +35,10 @@ function attack(event: Event) {
 
     if (response.isShip) {
         cell.classList.add('ship')
+
+        if (response.isSunk) {
+            uncover(cell)
+        }
     } else {
         cell.classList.add('water')
     }
@@ -52,4 +57,28 @@ function uncoverBoard() {
         cell.classList.add('water')
         cell.classList.add('cell--attacked')
     }
+}
+
+function uncover(target: Element) {
+    if (target.classList.contains('ship--sunk')) {
+        return
+    }
+
+    if (target.classList.contains('ship')) {
+        target.classList.add('ship--sunk')
+        const neighbors = cells.filter(cell => areNeighbors(target, cell))
+        neighbors.forEach(neighbor => uncover(neighbor))
+    } else {
+        target.classList.add('water')
+    }
+}
+
+function areNeighbors(thisCell: Element, thatCell: Element) {
+    const thisX = thisCell.getAttribute('data-x') as string
+    const thisY = thisCell.getAttribute('data-y') as string
+    const thatX = thatCell.getAttribute('data-x') as string
+    const thatY = thatCell.getAttribute('data-y') as string
+
+    return Math.abs(+thisX - +thatX) <= 1
+        && Math.abs(+thisY - +thatY) <= 1
 }
