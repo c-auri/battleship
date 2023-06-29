@@ -1,4 +1,4 @@
-import { makeComputerMove } from "../Controller"
+import { handleGameOver, makeComputerMove } from "../Controller"
 import { Board } from "../ts/model/Board"
 import { Ship } from "../ts/model/Ship"
 import { uncover } from "./Uncover"
@@ -23,6 +23,10 @@ export function initializePlayerBoard() {
 
     board.place(new Ship(4), 4, 5, 'horizontal')
     board.place(new Ship(2), 2, 2, 'vertical')
+}
+
+export function playerWon() {
+    return board.allAreSunk
 }
 
 export function togglePlayerBoard() {
@@ -56,17 +60,8 @@ function attack(event: Event) {
     cell.classList.add('cell--attacked')
 
     if (board.allAreSunk) {
-        uncoverBoard()
+        handleGameOver()
     } else {
         makeComputerMove()
-    }
-}
-
-function uncoverBoard() {
-    const remainingCells = cells.filter(cell => !cell.classList.contains('cell--attacked'))
-
-    for (const cell of remainingCells) {
-        cell.classList.add('water')
-        cell.classList.add('cell--attacked')
     }
 }

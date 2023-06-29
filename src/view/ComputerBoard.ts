@@ -28,6 +28,10 @@ export function initializeComputerBoard() {
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
 
+export function computerWon() {
+    return board.allAreSunk
+}
+
 export function toggleComputerBoard() {
     for (const cell of cells) {
         cell.classList.toggle('cell--inactive')
