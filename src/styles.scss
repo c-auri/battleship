@@ -8,6 +8,8 @@
     --clr-green: seagreen;
     --clr-blue: lightsteelblue;
 
+    --opacity: .75;
+
     font-family: sans-serif;
 }
 
@@ -106,7 +108,7 @@ main {
     }
 
     &--inactive {
-        opacity: .75;
+        opacity: var(--opacity);
 
         &:hover {
             cursor: default;
@@ -143,7 +145,7 @@ main {
     gap: .5rem .5rem;
 
     &--inactive .ship .square {
-        opacity: .75;
+        opacity: var(--opacity);
     }
 }
 
@@ -152,7 +154,7 @@ main {
     gap: .1rem;
 
     &--sunk .square {
-        opacity: .75;
+        opacity: var(--opacity);
         background-color: var(--clr-light-gray) !important;
     }
 }
