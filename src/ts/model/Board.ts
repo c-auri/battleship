@@ -86,12 +86,19 @@ export class Board {
                 throw new Error('Invalid position')
         }
 
-        for (let i = 0; i < ship.length; i++) {
-            if (orientation === 'horizontal'
-                ? this.#cells[x + i][y].shipId >= 0
-                : this.#cells[x][y + i].shipId >= 0
-            ) {
-                throw new Error('Can not place ship on top of another ship')
+        for (let i = -1; i <= ship.length; i++) {
+            for (let j = -1; j <= +1; j++) {
+                let cell: Cell
+
+                try {
+                    cell = orientation === 'horizontal' ? this.#cells[x + i][y + j] : this.#cells[x + j][y + i]
+                } catch {
+                    continue
+                }
+
+                if (cell?.shipId >= 0) {
+                    throw new Error('Can not place ship too close to another ship')
+                }
             }
         }
     }
