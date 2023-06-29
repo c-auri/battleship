@@ -76,6 +76,11 @@ main {
     background-color: var(--clr-red);
 }
 
+.ship--player.ship--sunk {
+    border-color: var(--clr-medium-gray);
+    background-color: var(--clr-medium-gray);
+}
+
 .water {
     border-color: var(--clr-blue);
     background-color: var(--clr-blue);

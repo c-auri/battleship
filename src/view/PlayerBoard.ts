@@ -1,6 +1,7 @@
 import { makeComputerMove } from "../Controller"
 import { Board } from "../ts/model/Board"
 import { Ship } from "../ts/model/Ship"
+import { uncover } from "./Uncover"
 
 const divBoard = document.querySelector('#player-board') as HTMLDivElement
 const board = new Board()
@@ -46,7 +47,7 @@ function attack(event: Event) {
         cell.classList.add('ship')
 
         if (response.isSunk) {
-            uncover(cell)
+            uncover(board, cells, cell)
         }
     } else {
         cell.classList.add('water')
@@ -68,28 +69,4 @@ function uncoverBoard() {
         cell.classList.add('water')
         cell.classList.add('cell--attacked')
     }
-}
-
-function uncover(target: Element) {
-    if (target.classList.contains('ship--sunk')) {
-        return
-    }
-
-    if (target.classList.contains('ship')) {
-        target.classList.add('ship--sunk')
-        const neighbors = cells.filter(cell => areNeighbors(target, cell))
-        neighbors.forEach(neighbor => uncover(neighbor))
-    } else {
-        target.classList.add('water')
-    }
-}
-
-function areNeighbors(thisCell: Element, thatCell: Element) {
-    const thisX = thisCell.getAttribute('data-x') as string
-    const thisY = thisCell.getAttribute('data-y') as string
-    const thatX = thatCell.getAttribute('data-x') as string
-    const thatY = thatCell.getAttribute('data-y') as string
-
-    return Math.abs(+thisX - +thatX) <= 1
-        && Math.abs(+thisY - +thatY) <= 1
 }

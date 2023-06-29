@@ -1,5 +1,6 @@
 import { Board } from "../ts/model/Board"
 import { Ship } from "../ts/model/Ship"
+import { uncover } from "./Uncover"
 
 const divBoard = document.querySelector('#computer-board') as HTMLDivElement
 const board = new Board()
@@ -39,7 +40,7 @@ export function attackPlayer() {
 
     do {
         x = Math.round(Math.random() * 9)
-        y = 5 //Math.round(Math.random() * 9)
+        y = Math.round(Math.random() * 9)
     } while(board.gotAttacked(x, y))
 
     return attack(x, y)
@@ -52,6 +53,10 @@ function attack(x: number, y: number) {
     if (response.isShip) {
         cell.classList.add('ship')
         cell.classList.add('ship--player')
+
+        if (response.isSunk) {
+            uncover(board, cells, cell)
+        }
     } else {
         cell.classList.add('water')
     }
