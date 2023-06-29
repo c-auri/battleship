@@ -41,10 +41,13 @@ export function handleGameOver() {
 
     if (playerWon()) {
         displayWinner('Player')
-        setPlayerActivity(false)
     }
 
     if (computerWon()) {
         displayWinner('Computer')
     }
+
+    setPlayerActivity(false)
+    setPlayerOpacity(false)
+    setComputerOpacity(false)
 }
