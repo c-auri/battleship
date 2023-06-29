@@ -4,10 +4,14 @@ import { Ship } from "../ts/model/Ship"
 import { uncover } from "./Uncover"
 
 const divBoard = document.querySelector('#player-board') as HTMLDivElement
-const board = new Board()
+
+let board: Board
 let cells: Element[]
 
 export function initializePlayerBoard() {
+    divBoard.innerHTML = ''
+    board = new Board()
+
     for (let y = 0; y < 10; y++) {
         for (let x = 0; x < 10; x++) {
             const cell = document.createElement('div')

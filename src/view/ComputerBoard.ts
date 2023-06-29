@@ -3,10 +3,13 @@ import { Ship } from "../ts/model/Ship"
 import { uncover } from "./Uncover"
 
 const divBoard = document.querySelector('#computer-board') as HTMLDivElement
-const board = new Board()
+
+let board: Board
 let cells: Element[]
 
 export function initializeComputerBoard() {
+    divBoard.innerHTML = ''
+    board = new Board()
     board.place(new Ship(4), 4, 5, 'horizontal')
     board.place(new Ship(2), 2, 2, 'vertical')
 

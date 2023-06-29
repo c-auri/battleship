@@ -2,9 +2,15 @@ import { computerWon, attackPlayer, initializeComputerBoard, toggleComputerBoard
 import { displayGameState } from './view/Display'
 import { playerWon, initializePlayerBoard, togglePlayerBoard } from './view/PlayerBoard'
 
+const buttonStart = document.getElementById('start-over')
+let gameIsOver = false
+
+buttonStart?.addEventListener('click', () => initialize())
+
 export function initialize() {
     initializeComputerBoard()
     initializePlayerBoard()
+    displayGameState('Player turn')
 }
 
 export function makeComputerMove() {
@@ -13,7 +19,7 @@ export function makeComputerMove() {
     displayGameState('Computer turn')
 
     setTimeout(() => {
-        const gameIsOver = attackPlayer()
+        gameIsOver = attackPlayer()
 
         if (!gameIsOver) {
             togglePlayerBoard()
