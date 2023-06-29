@@ -1,1 +1,4 @@
 # battleship
+
+## Pain Points
+- indices!
