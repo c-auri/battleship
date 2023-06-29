@@ -24,6 +24,10 @@ export class Board {
         }
     }
 
+    get ships() {
+        return this.#ships
+    }
+
     get allAreSunk() {
         if (this.#ships.length === 0) {
             return false

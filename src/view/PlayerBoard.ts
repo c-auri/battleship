@@ -1,7 +1,9 @@
 import { Board } from "../ts/model/Board"
+import { initializeShips, updateShips } from "./Ships"
 import { uncover } from "./Uncover"
 
 const divBoard = document.querySelector('#player-board') as HTMLDivElement
+const divShips = document.querySelector('#player-ships') as HTMLDivElement
 
 let board: Board
 let cells: Element[]
@@ -26,6 +28,8 @@ export function initializePlayerBoard(shipLengths: number[]) {
         }
     }
 
+    initializeShips(board.ships, divShips)
+
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
 
@@ -48,7 +52,10 @@ export function attackPlayer() {
         y = Math.round(Math.random() * 9)
     } while(board.gotAttacked(x, y))
 
-    return attack(x, y)
+    const wasHit = attack(x, y)
+    updateShips(board.ships, divShips)
+
+    return wasHit
 }
 
 function attack(x: number, y: number) {

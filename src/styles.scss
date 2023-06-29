@@ -47,7 +47,7 @@ main {
     flex-direction: column;
     gap: 3rem;
 
-    @media only screen and (min-width:60rem) {
+    @media only screen and (min-width: 60rem) {
         margin: calc(max(3rem, 7.5vh));
         flex-direction: row;
         gap: calc(max(5rem, 7.5vw));
@@ -59,9 +59,14 @@ main {
     flex-direction: column;
     align-items: center;
     color: var(--clr-dark-gray);
-    gap: 1rem;
-}
+    gap: 2rem;
 
+    &__name {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+}
 
 .board {
     display: grid;
@@ -127,6 +132,37 @@ main {
         cursor: default;
         border-color: transparent;
     }
+}
+
+.ships {
+    max-width: 20rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem .5rem;
+}
+
+.ship {
+    display: flex;
+    gap: .1rem;
+
+    &--sunk .square {
+        background-color: var(--clr-light-gray) !important;
+    }
+}
+
+.square {
+    opacity: .75;
+    aspect-ratio: 1;
+    height: 1.25rem;
+}
+
+#player-ships .square {
+    background-color: var(--clr-green);
+}
+
+#computer-ships .square {
+    background-color: var(--clr-red);
 }
 
 .button {

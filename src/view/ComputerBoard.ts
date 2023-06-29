@@ -1,8 +1,10 @@
 import { handleGameOver, makeComputerMove } from "../Controller"
 import { Board } from "../ts/model/Board"
+import { initializeShips, updateShips } from "./Ships"
 import { uncover } from "./Uncover"
 
 const divBoard = document.querySelector('#computer-board') as HTMLDivElement
+const divShips = document.querySelector('#computer-ships') as HTMLDivElement
 
 let board: Board
 let cells: Element[]
@@ -22,6 +24,8 @@ export function initializeComputerBoard(shipLengths: number[]) {
             divBoard?.appendChild(cell)
         }
     }
+
+    initializeShips(board.ships, divShips)
 
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
@@ -59,6 +63,7 @@ function attack(event: Event) {
     }
 
     cell.classList.add('cell--attacked')
+    updateShips(board.ships, divShips)
 
     if (board.allAreSunk) {
         handleGameOver()
