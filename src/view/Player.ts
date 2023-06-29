@@ -29,7 +29,7 @@ export function initializePlayer(shipLengths: number[]) {
     }
 
     initializeShips(board.ships, divShips)
-    divSide.classList.add('inactive')
+    divSide.classList.add('opaque')
 
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
@@ -38,8 +38,8 @@ export function computerWon() {
     return board.allAreSunk
 }
 
-export function togglePlayerBoard() {
-    divSide.classList.toggle('inactive')
+export function togglePlayerOpacity() {
+    divSide.classList.toggle('opaque')
 }
 
 export function attackPlayer() {

@@ -27,6 +27,7 @@ export function initializeComputer(shipLengths: number[]) {
     }
 
     initializeShips(board.ships, divShips)
+    divSide.setAttribute('data-active', 'true')
 
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
@@ -35,14 +36,18 @@ export function playerWon() {
     return board.allAreSunk
 }
 
-export function toggleComputerBoard() {
-    divSide.classList.toggle('inactive')
+export function toggleComputerOpacity() {
+    divSide.classList.toggle('opaque')
+}
+
+export function setPlayerActivity(value: boolean) {
+    divSide.setAttribute('data-active', '' + value)
 }
 
 function attack(event: Event) {
     const cell = event.target as Element
 
-    if (divSide.classList.contains('inactive') || cell.classList.contains('cell--attacked')) {
+    if (divSide.getAttribute('data-active') === "false" || cell.classList.contains('cell--attacked')) {
         return
     }
 
