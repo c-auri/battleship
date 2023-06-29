@@ -102,8 +102,9 @@ export class Board {
         y: number,
         orientation: Orientation
     ) {
-        if ((orientation === 'horizontal' && x + ship.length > Board.#SIZE) ||
-            (orientation === 'vertical' && y + ship.length > Board.#SIZE)
+        const isHorizontal = orientation === 'horizontal'
+        if ((isHorizontal && x + ship.length > Board.#SIZE) ||
+            (!isHorizontal && y + ship.length > Board.#SIZE)
         ) {
             return false
         }
@@ -113,7 +114,11 @@ export class Board {
                 let cell: Cell
 
                 try {
-                    cell = orientation === 'horizontal' ? this.#cells[x + i][y + j] : this.#cells[x + j][y + i]
+                    if (isHorizontal) {
+                        cell = this.#cells[x + i][y + j]
+                    } else {
+                        cell = this.#cells[x + j][y + i]
+                    }
                 } catch {
                     continue
                 }
