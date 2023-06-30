@@ -62,10 +62,6 @@ export class Board {
         return this.#cells[x][y].shipId >= 0
     }
 
-    gotAttacked(x: number, y: number) {
-        return this.#cells[x][y].gotAttacked
-    }
-
     getState(x: number, y: number) {
         this.#validateCoordinate(x, y)
 

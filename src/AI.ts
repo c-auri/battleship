@@ -7,7 +7,7 @@ export function findTarget(board: Board) {
     do {
         x = Math.round(Math.random() * 9)
         y = Math.round(Math.random() * 9)
-    } while(board.gotAttacked(x, y))
+    } while(board.getState(x, y) !== 'unknown')
 
     return { x, y }
 }
