@@ -174,7 +174,7 @@ describe('place', () => {
     })
 })
 
-describe('receiveAttack', () => {
+describe('attack', () => {
     describe('throws an error', () => {
         test('when given invalid coordinates', () => {
             const board = new Board()
