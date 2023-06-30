@@ -8,6 +8,10 @@ export type Orientation = 'horizontal' | 'vertical'
 export class Board {
     static #SIZE = 10
 
+    static get Size() {
+        return Board.#SIZE
+    }
+
     #ships: Ship[]
     #cells: Cell[][]
 
