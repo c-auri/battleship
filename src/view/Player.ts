@@ -1,5 +1,5 @@
 import { Board } from "../ts/model/Board"
-import { findTarget } from "../AI"
+import { findBestTargets } from "../AI"
 import { initializeShips, updateShips } from "./Ships"
 import { uncover } from "./Uncover"
 
@@ -48,11 +48,20 @@ export function setPlayerTransparency(isTransparent: boolean) {
 }
 
 export function attackPlayer() {
-    const { x, y } = findTarget(board)
+    const bestTargets = findBestTargets(board)
+    const { x, y } = pickAtRandom(bestTargets)
     const isGameOver = attack(x, y)
     updateShips(board.ships, divShips)
 
     return isGameOver
+}
+
+function pickAtRandom(coordinates: { x: number, y: number }[]) {
+    const maxIndex = coordinates.length - 1
+    const randomIndex = Math.round(Math.random() * maxIndex)
+    const result = coordinates[randomIndex]
+
+    return { x: result.x, y: result.y }
 }
 
 function attack(x: number, y: number) {
