@@ -1,6 +1,6 @@
-import { computerWon, attackPlayer, initializePlayer, setPlayerOpacity } from './view/Player'
+import { computerWon, attackPlayer, initializePlayer, setPlayerTransparency } from './view/Player'
 import { displayGameState, displayWinner } from './view/Display'
-import { playerWon, initializeComputer, setComputerOpacity, setPlayerActivity } from './view/Computer'
+import { playerWon, initializeComputer, setComputerTransparency, setPlayerActivity } from './view/Computer'
 
 const buttonStart = document.getElementById('start-over')
 let gameIsOver = false
@@ -15,8 +15,8 @@ export function initialize() {
 }
 
 export function makeComputerMove() {
-    setPlayerOpacity(false)
-    setComputerOpacity(true)
+    setPlayerTransparency(false)
+    setComputerTransparency(true)
     setPlayerActivity(false)
     displayGameState('Computer turn')
 
@@ -24,8 +24,8 @@ export function makeComputerMove() {
         gameIsOver = attackPlayer()
 
         if (!gameIsOver) {
-            setPlayerOpacity(true)
-            setComputerOpacity(false)
+            setPlayerTransparency(true)
+            setComputerTransparency(false)
             setPlayerActivity(true)
             displayGameState('Player turn')
         } else {
@@ -48,6 +48,6 @@ export function handleGameOver() {
     }
 
     setPlayerActivity(false)
-    setPlayerOpacity(false)
-    setComputerOpacity(false)
+    setPlayerTransparency(false)
+    setComputerTransparency(false)
 }

@@ -29,7 +29,7 @@ export function initializePlayer(shipLengths: number[]) {
     }
 
     initializeShips(board.ships, divShips)
-    divSide.classList.add('opaque')
+    divSide.classList.add('transparent')
 
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
@@ -38,11 +38,11 @@ export function computerWon() {
     return board.allAreSunk
 }
 
-export function setPlayerOpacity(isOpaque: boolean) {
-    if (isOpaque) {
-        divSide.classList.add('opaque')
+export function setPlayerTransparency(isTransparent: boolean) {
+    if (isTransparent) {
+        divSide.classList.add('transparent')
     } else {
-        divSide.classList.remove('opaque')
+        divSide.classList.remove('transparent')
     }
 }
 
