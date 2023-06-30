@@ -44,7 +44,13 @@ function evaluate(board: Board, x: number, y: number) {
     } else if (directNeighborIsMiss(board, x, y)) {
         return 0
     } else {
-        return 1
+        let numberOfFits = 0
+
+        for (const length of descendingLengths) {
+            numberOfFits += fits(board, x, y, length) ? length : 0
+        }
+
+        return numberOfFits
     }
 }
 
