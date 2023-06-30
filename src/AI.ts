@@ -32,6 +32,8 @@ function evaluate(board: Board, x: number, y: number) {
         return -1
     } else if (directNeighborIsHit(board, x, y)) {
         return 100
+    } else if (directNeighborIsMiss(board, x, y)) {
+        return 0
     } else {
         return 1
     }
@@ -51,6 +53,17 @@ function directNeighborIsHit(board: Board, x: number, y: number) {
         || y < rim && isHit(board, { x: x, y: y + 1 })
 }
 
+function directNeighborIsMiss(board: Board, x: number, y: number) {
+    return x > 0 && isMiss(board, { x: x - 1, y: y })
+        || y > 0 && isMiss(board, { x: x, y: y - 1 })
+        || x < rim && isMiss(board, { x: x + 1, y: y })
+        || y < rim && isMiss(board, { x: x, y: y + 1 })
+}
+
 function isHit(board: Board, coordinate: { x: number, y: number }) {
     return board.getState(coordinate.x, coordinate.y) === "hit"
+}
+
+function isMiss(board: Board, coordinate: { x: number, y: number }) {
+    return board.getState(coordinate.x, coordinate.y) === "miss"
 }

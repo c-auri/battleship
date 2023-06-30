@@ -51,6 +51,14 @@ describe('findTarget', () => {
             { x: 3, y: 5},
         ].sort(ascending))
     })
+    test('ignores diagonal neighbors of previous miss', () => {
+        const board = new Board()
+        board.attack(3, 3)
+        expect(findBestTargets(board)).not.toContain({ x: 3, y: 2 })
+        expect(findBestTargets(board)).not.toContain({ x: 3, y: 4 })
+        expect(findBestTargets(board)).not.toContain({ x: 2, y: 3 })
+        expect(findBestTargets(board)).not.toContain({ x: 4, y: 3 })
+    })
 })
 
 function ascending(a: { x: number, y: number }, b: { x: number, y: number }) {
