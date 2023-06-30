@@ -2,6 +2,8 @@ import { Board } from "./ts/model/Board"
 
 type Candidate = { x: number, y: number, value: number }
 
+const rim = Board.Size - 1
+
 export function findBestTargets(board: Board): { x: number, y: number }[] {
     const candidates: Candidate[] = []
     let best = -1
@@ -26,19 +28,27 @@ export function findBestTargets(board: Board): { x: number, y: number }[] {
 }
 
 function evaluate(board: Board, x: number, y: number) {
-
-    if (directNeighborIsHit(board, x, y)) {
+    if (diagonalNeighborIsHit(board, x, y)) {
+        return -1
+    } else if (directNeighborIsHit(board, x, y)) {
         return 100
     } else {
         return 1
     }
 }
 
+function diagonalNeighborIsHit(board: Board, x: number, y: number) {
+    return x > 0 && y > 0 && isHit(board, { x: x - 1, y: y - 1 })
+        || x > 0 && y < rim && isHit(board, { x: x - 1, y: y + 1 })
+        || y > 0 && x < rim && isHit(board, { x: x + 1, y: y - 1 })
+        || x < rim && y < rim && isHit(board, { x: x + 1, y: y + 1 })
+}
+
 function directNeighborIsHit(board: Board, x: number, y: number) {
     return x > 0 && isHit(board, { x: x - 1, y: y })
         || y > 0 && isHit(board, { x: x, y: y - 1 })
-        || x < Board.Size - 1 && isHit(board, { x: x + 1, y: y })
-        || y < Board.Size - 1 && isHit(board, { x: x, y: y + 1 })
+        || x < rim && isHit(board, { x: x + 1, y: y })
+        || y < rim && isHit(board, { x: x, y: y + 1 })
 }
 
 function isHit(board: Board, coordinate: { x: number, y: number }) {

@@ -25,4 +25,24 @@ describe('findTarget', () => {
             { x: 4, y: 3 },
         ]))
     })
+    test('ignores diagonal neighbors of previous hit', () => {
+        const board = new Board()
+        board.place(new Ship(3), 3, 3, 'vertical')
+        board.attack(3, 3)
+        const targets = findBestTargets(board)
+        expect(targets).not.toContain({ x: 2, y: 2 })
+        expect(targets).not.toContain({ x: 2, y: 4 })
+        expect(targets).not.toContain({ x: 4, y: 2 })
+        expect(targets).not.toContain({ x: 4, y: 4 })
+    })
+    test('ignores side neighbors of previous hit streak', () => {
+        const board = new Board()
+        board.place(new Ship(3), 3, 3, 'vertical')
+        board.attack(3, 3)
+        board.attack(3, 4)
+        expect(new Set(findBestTargets(board))).toEqual(new Set([
+            { x: 3, y: 2},
+            { x: 3, y: 5},
+        ]))
+    })
 })
