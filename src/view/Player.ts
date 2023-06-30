@@ -1,4 +1,5 @@
 import { Board } from "../ts/model/Board"
+import { findTarget } from "../AI"
 import { initializeShips, updateShips } from "./Ships"
 import { uncover } from "./Uncover"
 
@@ -47,18 +48,11 @@ export function setPlayerTransparency(isTransparent: boolean) {
 }
 
 export function attackPlayer() {
-    let x: number
-    let y: number
-
-    do {
-        x = Math.round(Math.random() * 9)
-        y = Math.round(Math.random() * 9)
-    } while(board.gotAttacked(x, y))
-
-    const wasHit = attack(x, y)
+    const { x, y } = findTarget(board)
+    const isGameOver = attack(x, y)
     updateShips(board.ships, divShips)
 
-    return wasHit
+    return isGameOver
 }
 
 function attack(x: number, y: number) {
