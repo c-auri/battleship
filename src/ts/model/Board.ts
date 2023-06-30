@@ -2,6 +2,7 @@ import { Ship } from "./Ship"
 
 export interface Cell { shipId: number, gotAttacked: boolean }
 export interface Response { isShip: boolean, isSunk: boolean }
+export type State = "unknown" | "miss" | "hit" | "sunk"
 
 export type Orientation = 'horizontal' | 'vertical'
 
@@ -63,6 +64,22 @@ export class Board {
 
     gotAttacked(x: number, y: number) {
         return this.#cells[x][y].gotAttacked
+    }
+
+    getState(x: number, y: number) {
+        this.#validateCoordinate(x, y)
+
+        const cell = this.#cells[x][y]
+
+        if (!cell.gotAttacked) {
+            return "unknown"
+        } else if (cell.shipId === -1) {
+            return "miss"
+        } else if (this.#ships[cell.shipId].isSunk) {
+            return "sunk"
+        } else {
+            return "hit"
+        }
     }
 
     place(ship: Ship, x: number, y: number, orientation: Orientation) {

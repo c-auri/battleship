@@ -174,6 +174,49 @@ describe('place', () => {
     })
 })
 
+describe('getState', () => {
+    describe('throws an error', () => {
+        test('when coordinates are out of bounds', () => {
+            const board = new Board()
+            expect(() => board.getState(-1, 0)).toThrow('Invalid coordinate')
+            expect(() => board.getState(0, -1)).toThrow('Invalid coordinate')
+            expect(() => board.getState(Board.Size, 0)).toThrow('Invalid coordinate')
+            expect(() => board.getState(0, Board.Size)).toThrow('Invalid coordinate')
+        })
+    })
+    describe('returns unknown', () => {
+        test('if coordinate was not hit before', () => {
+            const board = new Board()
+            expect(board.getState(2, 2)).toBe('unknown')
+        })
+    })
+    describe('returns miss', () => {
+        test('if coordinate was attacked before and there is no ship there', () => {
+            const board = new Board()
+            board.attack(2, 2)
+            expect(board.getState(2, 2)).toBe('miss')
+        })
+    })
+    describe('returns hit', () => {
+        test('if coordinate was attacked before and there is a ship there', () => {
+            const board = new Board()
+            board.place(new Ship(2), 2, 2, 'horizontal')
+            board.attack(2, 2)
+            expect(board.getState(2, 2)).toBe('hit')
+        })
+    })
+    describe('returns sunk', () => {
+        test('if coordinate was attacked before and there is a sunken ship there', () => {
+            const board = new Board()
+            board.place(new Ship(2), 2, 2, 'horizontal')
+            board.attack(2, 2)
+            board.attack(3, 2)
+            expect(board.getState(2, 2)).toBe('sunk')
+            expect(board.getState(3, 2)).toBe('sunk')
+        })
+    })
+})
+
 describe('attack', () => {
     describe('throws an error', () => {
         test('when given invalid coordinates', () => {
