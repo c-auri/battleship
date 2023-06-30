@@ -9,27 +9,15 @@ describe('constructor', () => {
 
 describe('place', () => {
     describe('throws an error', () => {
-        test('when x coordinate is negative', () => {
+        test('when coordinates are out of bounds', () => {
             const board = new Board()
             const ship = new Ship(4)
             expect(() => board.place(ship, -1, 3, 'horizontal'))
                 .toThrow('Invalid coordinate')
-        })
-        test('when x coordinate is too large', () => {
-            const board = new Board()
-            const ship = new Ship(4)
             expect(() => board.place(ship, 10, 3, 'horizontal'))
                 .toThrow('Invalid coordinate')
-        })
-        test('when y coordinate is negative', () => {
-            const board = new Board()
-            const ship = new Ship(4)
             expect(() => board.place(ship, 3, -1, 'horizontal'))
                 .toThrow('Invalid coordinate')
-        })
-        test('when x coordinate is too large', () => {
-            const board = new Board()
-            const ship = new Ship(4)
             expect(() => board.place(ship, 3, 10, 'horizontal'))
                 .toThrow('Invalid coordinate')
         })
