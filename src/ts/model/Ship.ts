@@ -2,6 +2,14 @@ export class Ship {
     static #MIN_LENGTH = 1
     static #MAX_LENGTH = 5
 
+    static get minLength() {
+        return Ship.#MIN_LENGTH
+    }
+
+    static get maxLength() {
+        return Ship.#MAX_LENGTH
+    }
+
     #length: number
     #numberOfHits: number
 

@@ -59,6 +59,43 @@ describe('findTarget', () => {
         expect(findBestTargets(board)).not.toContain({ x: 2, y: 3 })
         expect(findBestTargets(board)).not.toContain({ x: 4, y: 3 })
     })
+    test('ignores coordinates that can not fit smallest ship (1)', () => {
+        const board = new Board()
+        board.place(new Ship(3), 0, 0, 'horizontal')
+        board.attack(5, 3)
+        board.attack(7, 5)
+        board.attack(5, 7)
+        board.attack(3, 5)
+        expect(findBestTargets(board)).not.toContain({ x: 5, y: 5 })
+        expect(findBestTargets(board)).not.toContain({ x: 8, y: 5 })
+        expect(findBestTargets(board).length).toBe(80)
+    })
+    test('ignores coordinates that can not fit smallest ship (2)', () => {
+        const board = new Board()
+        board.place(new Ship(3), 0, 0, 'horizontal')
+
+        for (let x = 0; x < Board.Size; x++) {
+            for (let y = 0; y < Board.Size; y++) {
+                if ((x + y) % 2 === 0 && !(x < 3 && y === 0)) {
+                    board.attack(x, y)
+                }
+            }
+        }
+
+        expect(findBestTargets(board).sort(ascending)).toEqual([
+            { x: 0, y: 0},
+            { x: 2, y: 0},
+        ].sort(ascending))
+    })
+    test('does not ignore end of ship if first coordinate after it is a miss', () => {
+        const board = new Board()
+        board.place(new Ship(2), 0, 0, 'horizontal')
+        board.attack(0, 1)
+        board.attack(1, 1)
+        board.attack(2, 0)
+        board.attack(0, 0)
+        expect(findBestTargets(board)).toEqual([{ x: 1, y: 0 }])
+    })
 })
 
 function ascending(a: { x: number, y: number }, b: { x: number, y: number }) {

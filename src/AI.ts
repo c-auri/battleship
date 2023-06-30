@@ -1,4 +1,5 @@
 import { Board } from "./ts/model/Board"
+import { Ship } from "./ts/model/Ship"
 
 type Candidate = { x: number, y: number, value: number }
 
@@ -28,7 +29,15 @@ export function findBestTargets(board: Board): { x: number, y: number }[] {
 }
 
 function evaluate(board: Board, x: number, y: number) {
-    if (diagonalNeighborIsHit(board, x, y)) {
+    const descendingLengths = board.ships
+        .filter(s => !s.isSunk)
+        .map(s => s.length)
+        .sort()
+        .reverse()
+
+    if (diagonalNeighborIsHit(board, x, y) ||
+        !fits(board, x, y, descendingLengths.slice(-1)[0])
+    ) {
         return -1
     } else if (directNeighborIsHit(board, x, y)) {
         return 100
@@ -66,4 +75,43 @@ function isHit(board: Board, coordinate: { x: number, y: number }) {
 
 function isMiss(board: Board, coordinate: { x: number, y: number }) {
     return board.getState(coordinate.x, coordinate.y) === "miss"
+}
+
+function fits(
+    board: Board,
+    x: number,
+    y: number,
+    length: number
+) {
+    if (length < Ship.minLength || length > Ship.maxLength) {
+        throw new Error('Length out of bounds')
+    }
+
+    const leftEnd = Math.max(0, x - length + 1)
+    const topEnd = Math.max(0, y - length + 1)
+    const rightEnd = Math.min(9, x + length - 1)
+    const bottomEnd = Math.min(9, y + length - 1)
+
+    let longest = 0
+    let current = 0
+
+    for (let i = leftEnd; i <= rightEnd; i++) {
+        const state = board.getState(i, y)
+        if (state === 'unknown' || state === 'hit') {
+            longest = ++current > longest ? current : longest
+        } else {
+            current = 0
+        }
+    }
+
+    for (let j = topEnd; j <= bottomEnd; j++) {
+        const state = board.getState(x, j)
+        if (state === 'unknown' || state === 'hit') {
+            longest = ++current > longest ? current : longest
+        } else {
+            current = 0
+        }
+    }
+
+    return longest >= length
 }
