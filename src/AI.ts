@@ -40,7 +40,7 @@ function evaluate(board: Board, x: number, y: number) {
     ) {
         return -1
     } else if (directNeighborIsHit(board, x, y)) {
-        return 100
+        return Infinity
     } else {
         let capacity = 0
 

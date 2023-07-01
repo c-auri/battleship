@@ -85,6 +85,22 @@ describe('findTarget', () => {
         board.attack(0, 0)
         expect(findBestTargets(board)).toEqual([{ x: 1, y: 0 }])
     })
+    test('prefers neighbors of previous hits over high capacity candidates', () => {
+        const board = new Board()
+        board.place(new Ship(5), 0, 0, 'horizontal')
+        board.place(new Ship(4), 6, 0, 'horizontal')
+        board.place(new Ship(3), 0, 2, 'horizontal')
+        board.place(new Ship(3), 2, 6, 'horizontal')
+        board.place(new Ship(2), 0, 9, 'horizontal')
+        board.place(new Ship(2), 6, 9, 'horizontal')
+        board.attack(3, 6)
+        expect(findBestTargets(board).sort(ascending)).toEqual([
+            { x: 2, y: 6 },
+            { x: 3, y: 5 },
+            { x: 4, y: 6 },
+            { x: 3, y: 7 },
+        ].sort(ascending))
+    })
 })
 
 function ascending(a: { x: number, y: number }, b: { x: number, y: number }) {
