@@ -36,19 +36,19 @@ function evaluate(board: Board, x: number, y: number) {
         .reverse()
 
     if (diagonalNeighborIsHit(board, x, y) ||
-        !fits(board, x, y, descendingLengths.slice(-1)[0])
+        getCapacity(board, x, y, descendingLengths.slice(-1)[0]) === 0
     ) {
         return -1
     } else if (directNeighborIsHit(board, x, y)) {
         return 100
     } else {
-        let numberOfFits = 0
+        let capacity = 0
 
         for (const length of descendingLengths) {
-            numberOfFits += fits(board, x, y, length) ? length : 0
+            capacity += getCapacity(board, x, y, length)
         }
 
-        return numberOfFits
+        return capacity
     }
 }
 
@@ -70,7 +70,7 @@ function isHit(board: Board, coordinate: { x: number, y: number }) {
     return board.getState(coordinate.x, coordinate.y) === "hit"
 }
 
-function fits(
+function getCapacity(
     board: Board,
     x: number,
     y: number,
@@ -97,6 +97,9 @@ function fits(
         }
     }
 
+    const horizontalCapacity = Math.max(0, longest - length + 1)
+
+    longest = 0
     current = 0
 
     for (let j = topEnd; j <= bottomEnd; j++) {
@@ -108,5 +111,7 @@ function fits(
         }
     }
 
-    return longest >= length
+    const verticalCapacity = Math.max(0, longest - length + 1)
+
+    return Math.max(0, horizontalCapacity + verticalCapacity) * length
 }

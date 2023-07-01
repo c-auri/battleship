@@ -72,10 +72,8 @@ describe('findTarget', () => {
         }
 
         expect(findBestTargets(board).sort(ascending)).toEqual([
-            { x: 0, y: 0},
             { x: 1, y: 0},
             { x: 2, y: 0},
-            { x: 3, y: 0},
         ].sort(ascending))
     })
     test('does not ignore end of ship if first coordinate after it is a miss', () => {
