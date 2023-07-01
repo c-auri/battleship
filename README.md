@@ -3,7 +3,9 @@
 ## Pain Points
 - indices!
 
+# Bugs
+- Timeout ignores board change
+
 ## TODO
 - Ship placement
-- Game Over highlight / animation
 - AI
