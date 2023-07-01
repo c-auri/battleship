@@ -1,76 +1,85 @@
 import { Board } from "./ts/model/Board"
 import { Ship } from "./ts/model/Ship"
 
-type Candidate = { x: number, y: number, value: number }
+type Candidate = { x: number, y: number, evaluation: number }
 
-const rim = Board.Size - 1
-
+/**
+ * Finds the best candidates to attack in the next round.
+ *
+ * This is done by evaluating the importance of all the remaining coordinates
+ * and returning the ones with the highest evaluation.
+ */
 export function findBestTargets(board: Board): { x: number, y: number }[] {
     const candidates: Candidate[] = []
-    let best = -1
+    let bestEvaluation = -Infinity
 
     for (let x = 0; x < Board.Size; x++) {
         for (let y = 0; y < Board.Size; y++) {
             if (board.getState(x, y) === 'unknown') {
-                const value = evaluate(board, x, y)
+                const evaluation = evaluate(board, x, y)
 
-                if (value > best) {
-                    best = value
+                if (evaluation > bestEvaluation) {
+                    bestEvaluation = evaluation
                 }
 
-                candidates.push({ x, y, value })
+                candidates.push({ x, y, evaluation })
             }
         }
     }
 
     return candidates
-        .filter(c => c.value === best)
+        .filter(c => c.evaluation === bestEvaluation)
         .map(({ x, y }) => ({ x, y }))
 }
 
+/**
+ * Estimates the importance of the given coordinate.
+ *
+ * First checks whether it is impossible for the coordinate to hold a ship
+ * or whether there have been hits in the direct neighborhood.
+ * If neither is the case, then it estimates the importance
+ * based on the capacity of the coordinate to hold one of the remaining ships.
+ */
 function evaluate(board: Board, x: number, y: number) {
-    const descendingLengths = board.ships
+    const lengthsInPlayDescending = board.ships
         .filter(s => !s.isSunk)
         .map(s => s.length)
         .sort()
         .reverse()
 
-    if (diagonalNeighborIsHit(board, x, y) ||
-        getCapacity(board, x, y, descendingLengths.slice(-1)[0]) === 0
+    const smallestLengthInPlay = lengthsInPlayDescending.slice(-1)[0]
+
+    if (!fits(board, x, y, smallestLengthInPlay) ||
+        diagonalNeighborIsHit(board, x, y)
     ) {
-        return -1
-    } else if (directNeighborIsHit(board, x, y)) {
-        return Infinity
-    } else {
-        let capacity = 0
-
-        for (const length of descendingLengths) {
-            capacity += getCapacity(board, x, y, length)
-        }
-
-        return capacity
+        return -Infinity
     }
+
+    if (directNeighborIsHit(board, x, y)) {
+        return Infinity
+    }
+
+    let capacity = 0
+
+    for (const length of lengthsInPlayDescending) {
+        capacity += calculateCapacity(board, x, y, length)  * length
+    }
+
+    return capacity
 }
 
-function diagonalNeighborIsHit(board: Board, x: number, y: number) {
-    return x > 0 && y > 0 && isHit(board, { x: x - 1, y: y - 1 })
-        || x > 0 && y < rim && isHit(board, { x: x - 1, y: y + 1 })
-        || y > 0 && x < rim && isHit(board, { x: x + 1, y: y - 1 })
-        || x < rim && y < rim && isHit(board, { x: x + 1, y: y + 1 })
+/**
+ * Checks whether the given coordinate can hold a ship of the given length.
+ */
+function fits(board: Board, x: number, y: number, length: number) {
+    return calculateCapacity(board, x, y, length) > 0
 }
 
-function directNeighborIsHit(board: Board, x: number, y: number) {
-    return x > 0 && isHit(board, { x: x - 1, y: y })
-        || y > 0 && isHit(board, { x: x, y: y - 1 })
-        || x < rim && isHit(board, { x: x + 1, y: y })
-        || y < rim && isHit(board, { x: x, y: y + 1 })
-}
-
-function isHit(board: Board, coordinate: { x: number, y: number }) {
-    return board.getState(coordinate.x, coordinate.y) === "hit"
-}
-
-function getCapacity(
+/**
+ * Calculates how many ways there are to fit a ship
+ * with the given length through the given coordinate.
+ */
+function calculateCapacity(
     board: Board,
     x: number,
     y: number,
@@ -113,5 +122,23 @@ function getCapacity(
 
     const verticalCapacity = Math.max(0, longest - length + 1)
 
-    return Math.max(0, horizontalCapacity + verticalCapacity) * length
+    return Math.max(0, horizontalCapacity + verticalCapacity)
+}
+
+function diagonalNeighborIsHit(board: Board, x: number, y: number) {
+    return x > 0 && y > 0 && isHit(board, x - 1, y - 1)
+        || x > 0 && y < Board.Size - 1 && isHit(board, x - 1, y + 1)
+        || y > 0 && x < Board.Size - 1 && isHit(board, x + 1, y - 1)
+        || x < Board.Size - 1 && y < Board.Size - 1 && isHit(board, x + 1, y + 1)
+}
+
+function directNeighborIsHit(board: Board, x: number, y: number) {
+    return x > 0 && isHit(board, x - 1, y)
+        || y > 0 && isHit(board, x, y - 1)
+        || x < Board.Size - 1 && isHit(board, x + 1, y)
+        || y < Board.Size - 1 && isHit(board, x, y + 1)
+}
+
+function isHit(board: Board, x: number, y: number) {
+    return board.getState(x, y) === "hit"
 }
