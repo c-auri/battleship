@@ -82,7 +82,7 @@ export class Board {
         this.#validateCoordinate(x, y)
 
         if (!this.#isValidPlacement(ship, x, y, orientation)) {
-            throw new Error('Invalid ship placement')
+            throw new Error(`Invalid ship placement: ${x}, ${y}`)
         }
 
         this.#ships.push(ship)
