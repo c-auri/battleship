@@ -1,7 +1,7 @@
 import { Ship } from "./Ship"
 
-export interface Cell { shipId: number, gotAttacked: boolean }
-export type State = "unknown" | "miss" | "hit" | "sunk"
+export type State = "fog" | "water" | "hit" | "sunk"
+interface Cell { shipId: number, isFog: boolean }
 
 export type Orientation = 'horizontal' | 'vertical'
 
@@ -22,7 +22,7 @@ export class Board {
         for (let i = 0; i < Board.#SIZE; i++) {
             const row = []
             for (let j = 0; j < Board.#SIZE; j++) {
-                row.push({ shipId: -1, gotAttacked: false })
+                row.push({ shipId: -1, isFog: true })
             }
             this.#cells.push(row)
         }
@@ -62,10 +62,10 @@ export class Board {
 
         const cell = this.#cells[x][y]
 
-        if (!cell.gotAttacked) {
-            return "unknown"
+        if (cell.isFog) {
+            return "fog"
         } else if (cell.shipId === -1) {
-            return "miss"
+            return "water"
         } else if (this.#ships[cell.shipId].isSunk) {
             return "sunk"
         } else {
@@ -97,11 +97,11 @@ export class Board {
 
         const cell = this.#cells[x][y]
 
-        if (cell.gotAttacked) {
+        if (!cell.isFog) {
             throw new Error(`Cell already received an attack: ${x}, ${y}`)
         }
 
-        cell.gotAttacked = true
+        cell.isFog = false
 
         if (cell.shipId >= 0) {
             this.#ships[cell.shipId].hit()

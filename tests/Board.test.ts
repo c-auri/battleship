@@ -220,23 +220,23 @@ describe('getState', () => {
             expect(() => board.getState(0, Board.Size)).toThrow('Invalid coordinate')
         })
     })
-    describe('returns unknown', () => {
+    describe('returns fog', () => {
         test('when nothing has been attacked yet', () => {
             const board = new Board()
-            expect(board.getState(2, 2)).toBe('unknown')
+            expect(board.getState(2, 2)).toBe('fog')
         })
         test('when coordinate has not been attacked', () => {
             const board = new Board()
             board.place(new Ship(3), 2, 3, 'horizontal')
             board.attack(7, 8)
-            expect(board.getState(2, 3)).toBe('unknown')
+            expect(board.getState(2, 3)).toBe('fog')
         })
     })
-    describe('returns miss', () => {
+    describe('returns water', () => {
         test('if coordinate was attacked before and there is no ship there', () => {
             const board = new Board()
             board.attack(2, 2)
-            expect(board.getState(2, 2)).toBe('miss')
+            expect(board.getState(2, 2)).toBe('water')
         })
     })
     describe('returns hit', () => {

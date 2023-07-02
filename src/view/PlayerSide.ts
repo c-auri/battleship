@@ -55,7 +55,7 @@ function updateCell(board: Board, x: number, y: number) {
         if (state === 'sunk') {
             uncover(board, cells, cell)
         }
-    } else if (state === 'miss') {
+    } else if (state === 'water') {
         cell.classList.add('water')
     }
 

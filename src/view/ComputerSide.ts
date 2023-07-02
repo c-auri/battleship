@@ -74,7 +74,7 @@ export function updateComputerSide(board: Board, x: number, y: number) {
         }
     }
 
-    if (state === 'miss') {
+    if (state === 'water') {
         cell.classList.add('water')
     }
 

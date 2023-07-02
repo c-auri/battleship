@@ -15,7 +15,7 @@ export function findBestTargets(board: Board): { x: number, y: number }[] {
 
     for (let x = 0; x < Board.Size; x++) {
         for (let y = 0; y < Board.Size; y++) {
-            if (board.getState(x, y) === 'unknown') {
+            if (board.getState(x, y) === 'fog') {
                 const evaluation = evaluate(board, x, y)
                 bestEvaluation = Math.max(bestEvaluation, evaluation)
                 candidates.push({ x, y, evaluation })
@@ -99,7 +99,7 @@ function calculateCapacity(
 
     for (let i = leftEnd; i <= rightEnd; i++) {
         const state = board.getState(i, y)
-        if (state === 'unknown' || state === 'hit') {
+        if (state === 'fog' || state === 'hit') {
             longest = ++current > longest ? current : longest
         } else {
             current = 0
@@ -113,7 +113,7 @@ function calculateCapacity(
 
     for (let j = topEnd; j <= bottomEnd; j++) {
         const state = board.getState(x, j)
-        if (state === 'unknown' || state === 'hit') {
+        if (state === 'fog' || state === 'hit') {
             longest = ++current > longest ? current : longest
         } else {
             current = 0
