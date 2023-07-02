@@ -1,6 +1,6 @@
-import { computerWon, attackPlayer, initializePlayer, setPlayerTransparency } from './view/Player'
+import { computerWon, attackPlayer, initializePlayer, setPlayerTransparency } from './view/PlayerSide'
 import { displayGameState, displayWinner } from './view/Display'
-import { playerWon, initializeComputer, setComputerTransparency, setPlayerActivity } from './view/Computer'
+import { playerWon, initializeComputer, setComputerTransparency, setPlayerActivity } from './view/ComputerSide'
 
 const buttonStart = document.getElementById('start-over')
 let gameIsOver = false
