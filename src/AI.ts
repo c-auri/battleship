@@ -4,7 +4,7 @@ import { Ship } from "./ts/model/Ship"
 type Candidate = { x: number, y: number, evaluation: number }
 
 /**
- * Finds the best candidates to attack in the next round.
+ * Finds the best coordinates to attack for the current state of the board.
  *
  * This is done by evaluating the importance of all the remaining coordinates
  * and returning the ones with the highest evaluation.
@@ -17,11 +17,7 @@ export function findBestTargets(board: Board): { x: number, y: number }[] {
         for (let y = 0; y < Board.Size; y++) {
             if (board.getState(x, y) === 'unknown') {
                 const evaluation = evaluate(board, x, y)
-
-                if (evaluation > bestEvaluation) {
-                    bestEvaluation = evaluation
-                }
-
+                bestEvaluation = Math.max(bestEvaluation, evaluation)
                 candidates.push({ x, y, evaluation })
             }
         }
@@ -32,26 +28,8 @@ export function findBestTargets(board: Board): { x: number, y: number }[] {
         .map(({ x, y }) => ({ x, y }))
 }
 
-/**
- * Estimates the importance of the given coordinate.
- *
- * First checks whether it is impossible for the coordinate to hold a ship
- * or whether there have been hits in the direct neighborhood.
- * If neither is the case, then it estimates the importance
- * based on the capacity of the coordinate to hold one of the remaining ships.
- */
 function evaluate(board: Board, x: number, y: number) {
-    const lengthsInPlayDescending = board.ships
-        .filter(s => !s.isSunk)
-        .map(s => s.length)
-        .sort()
-        .reverse()
-
-    const smallestLengthInPlay = lengthsInPlayDescending.slice(-1)[0]
-
-    if (!fits(board, x, y, smallestLengthInPlay) ||
-        diagonalNeighborIsHit(board, x, y)
-    ) {
+    if (mustBeWater(board, x, y)) {
         return -Infinity
     }
 
@@ -59,20 +37,42 @@ function evaluate(board: Board, x: number, y: number) {
         return Infinity
     }
 
+    return calculateTotalCapacity(board, x, y)
+}
+
+function mustBeWater(board: Board, x: number, y: number) {
+    const smallestLength = Math.min(...getShipLengthsInPlay(board))
+
+    return diagonalNeighborIsHit(board, x, y)
+        || calculateCapacity(board, x, y, smallestLength) === 0
+}
+
+function directNeighborIsHit(board: Board, x: number, y: number) {
+    return x > 0 && isHit(board, x - 1, y)
+        || y > 0 && isHit(board, x, y - 1)
+        || x < Board.Size - 1 && isHit(board, x + 1, y)
+        || y < Board.Size - 1 && isHit(board, x, y + 1)
+}
+
+function diagonalNeighborIsHit(board: Board, x: number, y: number) {
+    return x > 0 && y > 0 && isHit(board, x - 1, y - 1)
+        || x > 0 && y < Board.Size - 1 && isHit(board, x - 1, y + 1)
+        || y > 0 && x < Board.Size - 1 && isHit(board, x + 1, y - 1)
+        || x < Board.Size - 1 && y < Board.Size - 1 && isHit(board, x + 1, y + 1)
+}
+
+/**
+ * Calculates how many ways there are to fit any of the remaining ships
+ * through the given coordinate, weighted by the length of the respective ship.
+ */
+function calculateTotalCapacity(board: Board, x: number, y: number) {
     let capacity = 0
 
-    for (const length of lengthsInPlayDescending) {
+    for (const length of getShipLengthsInPlay(board)) {
         capacity += calculateCapacity(board, x, y, length)  * length
     }
 
     return capacity
-}
-
-/**
- * Checks whether the given coordinate can hold a ship of the given length.
- */
-function fits(board: Board, x: number, y: number, length: number) {
-    return calculateCapacity(board, x, y, length) > 0
 }
 
 /**
@@ -86,7 +86,7 @@ function calculateCapacity(
     length: number
 ) {
     if (length < Ship.minLength || length > Ship.maxLength) {
-        throw new Error('Length out of bounds')
+        throw new Error('Length out of bounds: ' + length)
     }
 
     const leftEnd = Math.max(0, x - length + 1)
@@ -125,18 +125,8 @@ function calculateCapacity(
     return Math.max(0, horizontalCapacity + verticalCapacity)
 }
 
-function diagonalNeighborIsHit(board: Board, x: number, y: number) {
-    return x > 0 && y > 0 && isHit(board, x - 1, y - 1)
-        || x > 0 && y < Board.Size - 1 && isHit(board, x - 1, y + 1)
-        || y > 0 && x < Board.Size - 1 && isHit(board, x + 1, y - 1)
-        || x < Board.Size - 1 && y < Board.Size - 1 && isHit(board, x + 1, y + 1)
-}
-
-function directNeighborIsHit(board: Board, x: number, y: number) {
-    return x > 0 && isHit(board, x - 1, y)
-        || y > 0 && isHit(board, x, y - 1)
-        || x < Board.Size - 1 && isHit(board, x + 1, y)
-        || y < Board.Size - 1 && isHit(board, x, y + 1)
+function getShipLengthsInPlay(board: Board) {
+    return board.ships.filter(s => !s.isSunk).map(s => s.length)
 }
 
 function isHit(board: Board, x: number, y: number) {

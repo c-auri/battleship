@@ -15,7 +15,7 @@ export class Ship {
 
     constructor(length: number) {
         if (length < Ship.#MIN_LENGTH || length > Ship.#MAX_LENGTH) {
-            throw new Error('Ship length out of bounds')
+            throw new Error('Ship length out of bounds: ' + length)
         }
         this.#length = length
         this.#numberOfHits = 0

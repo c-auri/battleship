@@ -53,6 +53,7 @@ describe('findTarget', () => {
     })
     test('ignores diagonal neighbors of previous miss', () => {
         const board = new Board()
+        board.place(new Ship(3), 0, 0, 'vertical')
         board.attack(3, 3)
         expect(findBestTargets(board)).not.toContain({ x: 3, y: 2 })
         expect(findBestTargets(board)).not.toContain({ x: 3, y: 4 })
