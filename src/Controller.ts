@@ -39,21 +39,19 @@ export function attackPlayer() {
     setPlayerActivity(false)
     displayGameState('Computer turn')
 
-    setTimeout(() => {
-        const bestTargets = findBestTargets(playerBoard)
-        const { x, y } = pickAtRandom(bestTargets)
-        attack(playerBoard, x, y)
-        updatePlayerSide(playerBoard, x, y)
+    const bestTargets = findBestTargets(playerBoard)
+    const { x, y } = pickAtRandom(bestTargets)
+    attack(playerBoard, x, y)
+    updatePlayerSide(playerBoard, x, y)
 
-        if (playerBoard.allAreSunk) {
-            handleGameOver()
-        } else {
-            setPlayerTransparency(true)
-            setComputerTransparency(false)
-            setPlayerActivity(true)
-            displayGameState('Player turn')
-        }
-    }, Math.random() * 1500)
+    if (playerBoard.allAreSunk) {
+        handleGameOver()
+    } else {
+        setPlayerTransparency(true)
+        setComputerTransparency(false)
+        setPlayerActivity(true)
+        displayGameState('Player turn')
+    }
 }
 
 function pickAtRandom(coordinates: { x: number, y: number }[]) {
