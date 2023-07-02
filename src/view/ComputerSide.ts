@@ -52,7 +52,7 @@ export function setPlayerActivity(isActive: boolean) {
 function initializeAttack(event: Event) {
     const cell = event.target as Element
 
-    if (!playerIsActive || cell.classList.contains('cell--attacked')) {
+    if (!playerIsActive || cell.classList.contains('cell--cleared')) {
         return
     }
 
@@ -63,6 +63,11 @@ function initializeAttack(event: Event) {
 }
 
 export function updateComputerSide(board: Board, x: number, y: number) {
+    updateCell(board, x, y)
+    updateShips(board.ships, divShips)
+}
+
+function updateCell(board: Board, x: number, y: number) {
     const state = board.getState(x, y)
     const cell = getCell(x, y)
 
@@ -78,8 +83,7 @@ export function updateComputerSide(board: Board, x: number, y: number) {
         cell.classList.add('water')
     }
 
-    cell.classList.add('cell--attacked')
-    updateShips(board.ships, divShips)
+    cell.classList.add('cell--cleared')
 }
 
 function getCell(x: number, y: number) {

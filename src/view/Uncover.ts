@@ -5,19 +5,14 @@ export function uncover(board: Board, cells: Element[], target: Element) {
         return
     }
 
+    target.classList.add('cell--cleared')
+
     if (target.classList.contains('cell--ship')) {
         target.classList.add('cell--sunk')
         const neighbors = cells.filter(cell => areNeighbors(target, cell))
         neighbors.forEach(neighbor => uncover(board, cells, neighbor))
     } else if (!target.classList.contains('water')) {
         target.classList.add('water')
-        const coordinates = getCoordinates(target)
-        board.attack(coordinates.x, coordinates.y)
-        const state = board.getState(coordinates.x, coordinates.y)
-
-        if (state === 'hit' || state === 'sunk') {
-            throw Error('Uncovered unexpected ship')
-        }
     }
 }
 
@@ -29,11 +24,4 @@ function areNeighbors(thisCell: Element, thatCell: Element) {
 
     return Math.abs(+thisX - +thatX) <= 1
         && Math.abs(+thisY - +thatY) <= 1
-}
-
-function getCoordinates(cell: Element) {
-    return {
-        x: +(cell.getAttribute('data-x') as string),
-        y: +(cell.getAttribute('data-y') as string)
-    }
 }

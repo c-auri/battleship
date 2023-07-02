@@ -1,7 +1,7 @@
 import { Ship } from "./Ship"
 
 export type State = "fog" | "water" | "hit" | "sunk"
-interface Cell { shipId: number, isFog: boolean }
+interface Cell { shipId: number, isFog: boolean, isClear: boolean }
 
 export type Orientation = 'horizontal' | 'vertical'
 
@@ -22,7 +22,7 @@ export class Board {
         for (let i = 0; i < Board.#SIZE; i++) {
             const row = []
             for (let j = 0; j < Board.#SIZE; j++) {
-                row.push({ shipId: -1, isFog: true })
+                row.push({ shipId: -1, isFog: true, isClear: false })
             }
             this.#cells.push(row)
         }
@@ -103,9 +103,72 @@ export class Board {
 
         cell.isFog = false
 
-        if (cell.shipId >= 0) {
-            this.#ships[cell.shipId].hit()
+        if (cell.shipId < 0) {
+            return
         }
+
+        const ship = this.#ships[cell.shipId]
+
+        ship.hit()
+
+        if (ship.isSunk) {
+            this.#clear(x, y)
+        }
+    }
+
+    #clear(x: number, y: number) {
+        const cell = this.#cells[x][y]
+
+        if (cell.isClear) {
+            return
+        }
+
+        cell.isFog = false
+        cell.isClear = true
+
+        if (cell.shipId >= 0) {
+            for (const neighbor of this.#getNeighbors(x, y)) {
+                this.#clear(neighbor.x, neighbor.y)
+            }
+        }
+    }
+
+    #getNeighbors(x: number, y: number) {
+        const result: { x: number, y: number }[] = []
+
+        if (x > 0) {
+            result.push({ x: x - 1, y: y })
+        }
+
+        if (x < Board.#SIZE - 1) {
+            result.push({ x: x + 1, y: y })
+        }
+
+        if (y > 0) {
+            result.push({ x: x, y: y - 1 })
+        }
+
+        if (y < Board.#SIZE - 1) {
+            result.push({ x: x, y: y + 1 })
+        }
+
+        if (x > 0 && y > 0) {
+            result.push({ x: x - 1, y: y - 1 })
+        }
+
+        if (x > 0 && y < Board.#SIZE - 1) {
+            result.push({ x: x - 1, y: y + 1 })
+        }
+
+        if (x < Board.#SIZE - 1 && y < Board.#SIZE - 1) {
+            result.push({ x: x + 1, y: y + 1 })
+        }
+
+        if (x < Board.#SIZE - 1 && y > 0) {
+            result.push({ x: x + 1, y: y - 1 })
+        }
+
+        return result
     }
 
     #isValidPlacement(

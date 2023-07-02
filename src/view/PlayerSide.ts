@@ -59,7 +59,7 @@ function updateCell(board: Board, x: number, y: number) {
         cell.classList.add('water')
     }
 
-    cell.classList.add('cell--attacked')
+    cell.classList.add('cell--cleared')
 }
 
 function getCell(x: number, y: number) {

@@ -102,7 +102,7 @@ main {
         background-color: var(--clr-green);
     }
 
-    &--attacked {
+    &--cleared {
         border-color: var(--clr-red);
         background-color: var(--clr-red);
 
@@ -118,7 +118,7 @@ main {
     }
 }
 
-.cell--attacked.cell--player {
+.cell--cleared.cell--player {
     border-color: var(--clr-red);
     background-color: var(--clr-red);
 }
