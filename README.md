@@ -8,4 +8,4 @@
 
 ## TODO
 - Ship placement
-- AI
+- Configure placement rules
