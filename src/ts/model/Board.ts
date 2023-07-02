@@ -34,11 +34,7 @@ export class Board {
     }
 
     get allAreSunk() {
-        if (this.#ships.length === 0) {
-            return false
-        }
-
-        return this.#ships.filter(ship => !ship.isSunk).length === 0
+        return this.#ships.every(ship => ship.isSunk)
     }
 
     randomize(lengths: number[]) {

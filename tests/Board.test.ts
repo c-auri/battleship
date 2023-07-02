@@ -7,6 +7,54 @@ describe('constructor', () => {
     })
 })
 
+describe('allAreSunk', () => {
+    describe('returns true', () => {
+        test('for empty board', () => {
+            const board = new Board()
+            expect(board.allAreSunk).toBe(true)
+        })
+        test('when the only ship got destroyed', () => {
+            const board = new Board()
+            board.place(new Ship(3), 1, 3, 'horizontal')
+            board.attack(1, 3)
+            board.attack(2, 3)
+            board.attack(3, 3)
+            expect(board.allAreSunk).toBe(true)
+        })
+    })
+    describe('returns false', () => {
+        test('for non-empty board without attacks', () => {
+            const board = new Board()
+            board.place(new Ship(3), 1, 3, 'horizontal')
+            expect(board.allAreSunk).toBe(false)
+        })
+        test('when previous attacks all missed', () => {
+            const board = new Board()
+            board.place(new Ship(3), 1, 3, 'horizontal')
+            board.attack(2, 4)
+            board.attack(5, 8)
+            board.attack(1, 1)
+            expect(board.allAreSunk).toBe(false)
+        })
+        test('when ship got hit but not destroyed', () => {
+            const board = new Board()
+            board.place(new Ship(3), 1, 3, 'horizontal')
+            board.attack(1, 3)
+            board.attack(1, 5)
+            expect(board.allAreSunk).toBe(false)
+        })
+        test('when one ship got destroyed but another did not', () => {
+            const board = new Board()
+            board.place(new Ship(3), 1, 3, 'horizontal')
+            board.place(new Ship(2), 6, 7, 'vertical')
+            board.attack(1, 3)
+            board.attack(1, 4)
+            board.attack(1, 5)
+            expect(board.allAreSunk).toBe(false)
+        })
+    })
+})
+
 describe('place', () => {
     describe('throws an error', () => {
         test('when coordinates are out of bounds', () => {
@@ -331,54 +379,6 @@ describe('attack', () => {
             board.attack(2, 3)
             const response = board.attack(2, 4)
             expect(response.isSunk).toBe(true)
-        })
-    })
-})
-
-describe('allAreSunk', () => {
-    describe('returns false', () => {
-        test('for empty board', () => {
-            const board = new Board()
-            expect(board.allAreSunk).toBe(false)
-        })
-        test('for non-empty board without attacks', () => {
-            const board = new Board()
-            board.place(new Ship(3), 1, 3, 'horizontal')
-            expect(board.allAreSunk).toBe(false)
-        })
-        test('when previous attacks all missed', () => {
-            const board = new Board()
-            board.place(new Ship(3), 1, 3, 'horizontal')
-            board.attack(2, 4)
-            board.attack(5, 8)
-            board.attack(1, 1)
-            expect(board.allAreSunk).toBe(false)
-        })
-        test('when ship got hit but not destroyed', () => {
-            const board = new Board()
-            board.place(new Ship(3), 1, 3, 'horizontal')
-            board.attack(1, 3)
-            board.attack(1, 5)
-            expect(board.allAreSunk).toBe(false)
-        })
-        test('when one ship got destroyed but another did not', () => {
-            const board = new Board()
-            board.place(new Ship(3), 1, 3, 'horizontal')
-            board.place(new Ship(2), 6, 7, 'vertical')
-            board.attack(1, 3)
-            board.attack(1, 4)
-            board.attack(1, 5)
-            expect(board.allAreSunk).toBe(false)
-        })
-    })
-    describe('returns true', () => {
-        test('when the only ship got destroyed', () => {
-            const board = new Board()
-            board.place(new Ship(3), 1, 3, 'horizontal')
-            board.attack(1, 3)
-            board.attack(2, 3)
-            board.attack(3, 3)
-            expect(board.allAreSunk).toBe(true)
         })
     })
 })
