@@ -1,49 +1,87 @@
-import { computerWon, attackPlayer, initializePlayer, setPlayerTransparency } from './view/PlayerSide'
+import { initializePlayerSide, setPlayerTransparency, updatePlayerSide } from './view/PlayerSide'
 import { displayGameState, displayWinner } from './view/Display'
-import { playerWon, initializeComputer, setComputerTransparency, setPlayerActivity } from './view/ComputerSide'
+import { initializeComputer, setComputerTransparency, setPlayerActivity, updateComputerSide } from './view/ComputerSide'
+import { Board } from './ts/model/Board'
+import { findBestTargets } from './AI'
+
+const shipLengths = [ 5, 4, 3, 3, 2, 2 ]
+
+let playerBoard: Board
+let computerBoard: Board
 
 const buttonStart = document.getElementById('start-over')
-let gameIsOver = false
-
 buttonStart?.addEventListener('click', () => initialize())
 
 export function initialize() {
-    const shipLengths = [ 5, 4, 3, 3, 2, 2 ]
-    initializePlayer(shipLengths)
-    initializeComputer(shipLengths)
+    playerBoard = new Board()
+    computerBoard = new Board()
+    playerBoard.randomize(shipLengths)
+    computerBoard.randomize(shipLengths)
+    initializePlayerSide(playerBoard)
+    initializeComputer(computerBoard)
     displayGameState('Player turn')
 }
 
-export function makeComputerMove() {
+export function attackComputer(x: number, y: number) {
+    computerBoard.attack(x, y)
+    updateComputerSide(computerBoard, x, y)
+
+    if (computerBoard.allAreSunk) {
+        handleGameOver()
+    } else {
+        attackPlayer()
+    }
+}
+
+export function attackPlayer() {
     setPlayerTransparency(false)
     setComputerTransparency(true)
     setPlayerActivity(false)
     displayGameState('Computer turn')
 
     setTimeout(() => {
-        gameIsOver = attackPlayer()
+        const bestTargets = findBestTargets(playerBoard)
+        const { x, y } = pickAtRandom(bestTargets)
+        attack(playerBoard, x, y)
+        updatePlayerSide(playerBoard, x, y)
 
-        if (!gameIsOver) {
+        if (playerBoard.allAreSunk) {
+            handleGameOver()
+        } else {
             setPlayerTransparency(true)
             setComputerTransparency(false)
             setPlayerActivity(true)
             displayGameState('Player turn')
-        } else {
-            handleGameOver()
         }
     }, Math.random() * 1500)
 }
 
+function pickAtRandom(coordinates: { x: number, y: number }[]) {
+    const maxIndex = coordinates.length - 1
+    const randomIndex = Math.round(Math.random() * maxIndex)
+    const result = coordinates[randomIndex]
+
+    return { x: result.x, y: result.y }
+}
+
+export function attack(board: Board, x: number, y: number) {
+    board.attack(x, y)
+
+    if (board.allAreSunk) {
+        handleGameOver()
+    }
+}
+
 export function handleGameOver() {
-    if (playerWon() && computerWon()) {
+    if (playerBoard.allAreSunk && computerBoard.allAreSunk) {
         throw Error('Indecisive game result')
     }
 
-    if (playerWon()) {
+    if (computerBoard.allAreSunk) {
         displayWinner('Player')
     }
 
-    if (computerWon()) {
+    if (playerBoard.allAreSunk) {
         displayWinner('Computer')
     }
 

@@ -1,5 +1,4 @@
 import { Board } from "../ts/model/Board"
-import { findBestTargets } from "../AI"
 import { initializeShips, updateShips } from "./Ships"
 import { uncover } from "./Uncover"
 
@@ -7,13 +6,10 @@ const divSide = document.querySelector('#player-side') as HTMLDivElement
 const divBoard = document.querySelector('#player-board') as HTMLDivElement
 const divShips = document.querySelector('#player-ships') as HTMLDivElement
 
-let board: Board
 let cells: Element[]
 
-export function initializePlayer(shipLengths: number[]) {
+export function initializePlayerSide(board: Board) {
     divBoard.innerHTML = ''
-    board = new Board()
-    board.randomize(shipLengths)
 
     for (let y = 0; y < Board.Size; y++) {
         for (let x = 0; x < Board.Size; x++) {
@@ -35,10 +31,6 @@ export function initializePlayer(shipLengths: number[]) {
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
 
-export function computerWon() {
-    return board.allAreSunk
-}
-
 export function setPlayerTransparency(isTransparent: boolean) {
     if (isTransparent) {
         divSide.classList.add('transparent')
@@ -47,41 +39,27 @@ export function setPlayerTransparency(isTransparent: boolean) {
     }
 }
 
-export function attackPlayer() {
-    const bestTargets = findBestTargets(board)
-    const { x, y } = pickAtRandom(bestTargets)
-    const isGameOver = attack(x, y)
+export function updatePlayerSide(board: Board, x: number, y: number) {
+    updateCell(board, x, y)
     updateShips(board.ships, divShips)
-
-    return isGameOver
 }
 
-function pickAtRandom(coordinates: { x: number, y: number }[]) {
-    const maxIndex = coordinates.length - 1
-    const randomIndex = Math.round(Math.random() * maxIndex)
-    const result = coordinates[randomIndex]
-
-    return { x: result.x, y: result.y }
-}
-
-function attack(x: number, y: number) {
+function updateCell(board: Board, x: number, y: number) {
     const cell = getCell(x, y)
-    const response = board.attack(+x, +y)
+    const state = board.getState(x, y)
 
-    if (response.isShip) {
+    if (state === 'hit' || state === 'sunk') {
         cell.classList.add('cell--ship')
         cell.classList.add('cell--player')
 
-        if (response.isSunk) {
+        if (state === 'sunk') {
             uncover(board, cells, cell)
         }
-    } else {
+    } else if (state === 'miss') {
         cell.classList.add('water')
     }
 
     cell.classList.add('cell--attacked')
-
-    return board.allAreSunk
 }
 
 function getCell(x: number, y: number) {

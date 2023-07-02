@@ -221,9 +221,15 @@ describe('getState', () => {
         })
     })
     describe('returns unknown', () => {
-        test('if coordinate was not hit before', () => {
+        test('when nothing has been attacked yet', () => {
             const board = new Board()
             expect(board.getState(2, 2)).toBe('unknown')
+        })
+        test('when coordinate has not been attacked', () => {
+            const board = new Board()
+            board.place(new Ship(3), 2, 3, 'horizontal')
+            board.attack(7, 8)
+            expect(board.getState(2, 3)).toBe('unknown')
         })
     })
     describe('returns miss', () => {
@@ -265,120 +271,6 @@ describe('attack', () => {
             board.attack(3, 4)
             expect(() => board.attack(3, 4))
                 .toThrow('Cell already received an attack')
-        })
-    })
-    describe('responds is no ship', () => {
-        test('for empty board', () => {
-            const board = new Board()
-            const response = board.attack(1, 3)
-            expect(response.isShip).toBe(false)
-        })
-        test('when missing by a large margin', () => {
-            const board = new Board()
-            board.place(new Ship(3), 2, 3, 'horizontal')
-            const response = board.attack(7, 8)
-            expect(response.isShip).toBe(false)
-        })
-        test('when hitting in front of head of a horizontal  ship', () => {
-            const board = new Board()
-            board.place(new Ship(3), 2, 3, 'horizontal')
-            const response = board.attack(1, 3)
-            expect(response.isShip).toBe(false)
-        })
-        test('when hitting in front of head of a vertical  ship', () => {
-            const board = new Board()
-            board.place(new Ship(3), 2, 3, 'vertical')
-            const response = board.attack(2, 2)
-            expect(response.isShip).toBe(false)
-        })
-        test('when hitting in back of tail of a horizontal  ship', () => {
-            const board = new Board()
-            board.place(new Ship(3), 2, 3, 'horizontal')
-            const response = board.attack(5, 3)
-            expect(response.isShip).toBe(false)
-        })
-        test('when hitting in back of tail of a vertical  ship', () => {
-            const board = new Board()
-            board.place(new Ship(3), 2, 3, 'vertical')
-            const response = board.attack(2, 6)
-            expect(response.isShip).toBe(false)
-        })
-        test('when hitting at the side of a horizontal  ship', () => {
-            const board = new Board()
-            board.place(new Ship(3), 2, 3, 'horizontal')
-
-            for (let i = 0; i < 3; i++) {
-                const rightResponse = board.attack(2 + i, 4)
-                const leftResponse = board.attack(2 + i, 2)
-                expect(leftResponse.isShip).toBe(false)
-                expect(rightResponse.isShip).toBe(false)
-            }
-        })
-        test('when hitting at the side of a vertical  ship', () => {
-            const board = new Board()
-            board.place(new Ship(3), 2, 3, 'vertical')
-
-            for (let i = 0; i < 3; i++) {
-                const rightResponse = board.attack(1, 3 + i)
-                const leftResponse = board.attack(3, 3 + i)
-                expect(leftResponse.isShip).toBe(false)
-                expect(rightResponse.isShip).toBe(false)
-            }
-        })
-    })
-    describe('responds is ship', () => {
-        test('when hitting placement coordinate of a ship', () => {
-            const board = new Board()
-            board.place(new Ship(2), 2, 3, 'vertical')
-            const response = board.attack(2, 3)
-            expect(response.isShip).toBe(true)
-        })
-        test('when hitting body of a horizontal  ship', () => {
-            const board = new Board()
-            board.place(new Ship(3), 2, 3, 'horizontal')
-            const response = board.attack(3, 3)
-            expect(response.isShip).toBe(true)
-        })
-        test('when hitting body of a vertical  ship', () => {
-            const board = new Board()
-            board.place(new Ship(3), 2, 3, 'vertical')
-            const response = board.attack(2, 4)
-            expect(response.isShip).toBe(true)
-        })
-        test('when hitting tail of a horizontal  ship', () => {
-            const board = new Board()
-            board.place(new Ship(3), 2, 3, 'horizontal')
-            const response = board.attack(4, 3)
-            expect(response.isShip).toBe(true)
-        })
-        test('when hitting tail of a vertical  ship', () => {
-            const board = new Board()
-            board.place(new Ship(3), 2, 3, 'vertical')
-            const response = board.attack(2, 5)
-            expect(response.isShip).toBe(true)
-        })
-    })
-    describe('responds is not sunk', () => {
-        test('when missing a ship', () => {
-            const board = new Board()
-            board.place(new Ship(2), 2, 3, 'vertical')
-            const response = board.attack(4, 5)
-            expect(response.isSunk).toBe(false)
-        })
-        test('when hitting but not destroying a ship', () => {
-            const board = new Board()
-            board.place(new Ship(2), 2, 3, 'vertical')
-            const response = board.attack(2, 3)
-            expect(response.isSunk).toBe(false)
-        })
-    })
-    describe('responds is sunk', () => {
-        test('when sinking a ship', () => {
-            const board = new Board()
-            board.place(new Ship(2), 2, 3, 'vertical')
-            board.attack(2, 3)
-            const response = board.attack(2, 4)
-            expect(response.isSunk).toBe(true)
         })
     })
 })

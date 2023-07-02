@@ -12,9 +12,10 @@ export function uncover(board: Board, cells: Element[], target: Element) {
     } else if (!target.classList.contains('water')) {
         target.classList.add('water')
         const coordinates = getCoordinates(target)
-        const response = board.attack(coordinates.x, coordinates.y)
+        board.attack(coordinates.x, coordinates.y)
+        const state = board.getState(coordinates.x, coordinates.y)
 
-        if (response.isShip || response.isSunk) {
+        if (state === 'hit' || state === 'sunk') {
             throw Error('Uncovered unexpected ship')
         }
     }
