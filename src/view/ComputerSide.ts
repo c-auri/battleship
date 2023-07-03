@@ -1,7 +1,7 @@
 import { attackComputer } from "../Controller"
 import { Board } from "../ts/model/Board"
 import { initializeShips, updateShips } from "./Ships"
-import { uncover } from "./Uncover"
+import { clear } from "./Clear"
 
 const divBoard = document.querySelector('#computer-board') as HTMLDivElement
 const divShips = document.querySelector('#computer-ships') as HTMLDivElement
@@ -9,7 +9,7 @@ const divShips = document.querySelector('#computer-ships') as HTMLDivElement
 let board: Board
 let cells: Element[]
 
-export function initializeComputer(board: Board) {
+export function initializeComputerSide(board: Board) {
     divBoard.innerHTML = ''
 
     for (let y = 0; y < Board.Size; y++) {
@@ -19,7 +19,7 @@ export function initializeComputer(board: Board) {
             cell.setAttribute('data-x', '' + x)
             cell.setAttribute('data-y', '' + y)
             cell.classList.add('cell--clickable')
-            cell.addEventListener('click', initializeAttack)
+            cell.addEventListener('click', attack)
             divBoard?.appendChild(cell)
         }
     }
@@ -33,7 +33,7 @@ export function playerWon() {
     return board.allAreSunk
 }
 
-function initializeAttack(event: Event) {
+function attack(event: Event) {
     const cell = event.target as Element
 
     if (!cell.classList.contains('cell--clickable')) {
@@ -63,7 +63,7 @@ function updateCell(board: Board, x: number, y: number) {
         cell.classList.add('cell--ship')
 
         if (state === 'sunk') {
-            uncover(board, cells, cell)
+            clear(board, cells, cell)
         }
     }
 

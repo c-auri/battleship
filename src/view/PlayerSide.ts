@@ -1,6 +1,6 @@
 import { Board } from "../ts/model/Board"
 import { initializeShips, updateShips } from "./Ships"
-import { uncover } from "./Uncover"
+import { clear } from "./Clear"
 
 const divBoard = document.querySelector('#player-board') as HTMLDivElement
 const divShips = document.querySelector('#player-ships') as HTMLDivElement
@@ -43,7 +43,7 @@ function updateCell(board: Board, x: number, y: number) {
         cell.classList.add('cell--player')
 
         if (state === 'sunk') {
-            uncover(board, cells, cell)
+            clear(board, cells, cell)
         }
     } else if (state === 'water') {
         cell.classList.add('water')

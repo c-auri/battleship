@@ -1,6 +1,6 @@
 import { Board } from "../ts/model/Board"
 
-export function uncover(board: Board, cells: Element[], target: Element) {
+export function clear(board: Board, cells: Element[], target: Element) {
     if (target.classList.contains('cell--sunk')) {
         return
     }
@@ -11,7 +11,7 @@ export function uncover(board: Board, cells: Element[], target: Element) {
     if (target.classList.contains('cell--ship')) {
         target.classList.add('cell--sunk')
         const neighbors = cells.filter(cell => areNeighbors(target, cell))
-        neighbors.forEach(neighbor => uncover(board, cells, neighbor))
+        neighbors.forEach(neighbor => clear(board, cells, neighbor))
     } else if (!target.classList.contains('water')) {
         target.classList.add('water')
     }

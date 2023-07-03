@@ -1,6 +1,6 @@
 import { initializePlayerSide, updatePlayerSide } from './view/PlayerSide'
 import { displayGameState, displayWinner } from './view/Display'
-import { initializeComputer, deactivateComputerSide, updateComputerSide } from './view/ComputerSide'
+import { initializeComputerSide, deactivateComputerSide, updateComputerSide } from './view/ComputerSide'
 import { Board } from './ts/model/Board'
 import { findBestTargets } from './AI'
 
@@ -18,7 +18,7 @@ export function initialize() {
     playerBoard.randomize(shipLengths)
     computerBoard.randomize(shipLengths)
     initializePlayerSide(playerBoard)
-    initializeComputer(computerBoard)
+    initializeComputerSide(computerBoard)
     displayGameState('Player turn')
 }
 
@@ -33,7 +33,7 @@ export function attackComputer(x: number, y: number) {
     }
 }
 
-export function attackPlayer() {
+function attackPlayer() {
     displayGameState('Computer turn')
 
     const bestTargets = findBestTargets(playerBoard)
