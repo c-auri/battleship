@@ -1,4 +1,4 @@
-import { Ship } from "../src/ts/model/Ship"
+import { Ship } from "../src/model/Ship"
 
 describe('constructor', () => {
     describe('throws an error', () => {

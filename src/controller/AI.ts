@@ -1,5 +1,5 @@
-import { Board } from "./ts/model/Board"
-import { Ship } from "./ts/model/Ship"
+import { Board } from "../model/Board"
+import { Ship } from "../model/Ship"
 
 type Candidate = { x: number, y: number, evaluation: number }
 

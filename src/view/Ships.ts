@@ -1,4 +1,4 @@
-import { Ship } from "../ts/model/Ship";
+import { Ship } from "../model/Ship";
 
 export function initializeShips(ships: Ship[], divShips: HTMLDivElement) {
     divShips.innerHTML = ''

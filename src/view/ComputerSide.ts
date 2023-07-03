@@ -1,12 +1,11 @@
-import { attackComputer } from "../Controller"
-import { Board } from "../ts/model/Board"
+import { attackComputer } from "../controller/Game"
+import { Board } from "../model/Board"
 import { initializeShips, updateShips } from "./Ships"
 import { clear } from "./Clear"
 
 const divBoard = document.querySelector('#computer-board') as HTMLDivElement
 const divShips = document.querySelector('#computer-ships') as HTMLDivElement
 
-let board: Board
 let cells: Element[]
 
 export function initializeComputerSide(board: Board) {
@@ -29,8 +28,13 @@ export function initializeComputerSide(board: Board) {
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
 
-export function playerWon() {
-    return board.allAreSunk
+export function updateComputerSide(board: Board, x: number, y: number) {
+    updateCell(board, x, y)
+    updateShips(board.ships, divShips)
+}
+
+export function deactivateComputerSide() {
+    cells.forEach(cell => cell.classList.remove('cell--clickable'))
 }
 
 function attack(event: Event) {
@@ -44,15 +48,6 @@ function attack(event: Event) {
     const y = cell.getAttribute('data-y') as string
 
     attackComputer(+x, +y)
-}
-
-export function updateComputerSide(board: Board, x: number, y: number) {
-    updateCell(board, x, y)
-    updateShips(board.ships, divShips)
-}
-
-export function deactivateComputerSide() {
-    cells.forEach(cell => cell.classList.remove('cell--clickable'))
 }
 
 function updateCell(board: Board, x: number, y: number) {

@@ -1,4 +1,4 @@
-import { Board } from "../ts/model/Board"
+import { Board } from "../model/Board"
 import { initializeShips, updateShips } from "./Ships"
 import { clear } from "./Clear"
 

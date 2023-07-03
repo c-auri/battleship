@@ -1,8 +1,8 @@
-import { Board } from './ts/model/Board'
+import { Board } from '../model/Board'
 import { findBestTargets } from './AI'
-import { initializePlayerSide, updatePlayerSide } from './view/PlayerSide'
-import { initializeComputerSide, deactivateComputerSide, updateComputerSide } from './view/ComputerSide'
-import { hideGameOver, showGameOver } from './view/GameOver'
+import { initializePlayerSide, updatePlayerSide } from '../view/PlayerSide'
+import { initializeComputerSide, deactivateComputerSide, updateComputerSide } from '../view/ComputerSide'
+import { hideGameOver, showGameOver } from '../view/GameOver'
 
 const shipLengths = [ 5, 4, 3, 3, 2, 2 ]
 
@@ -49,7 +49,7 @@ function pickAtRandom(coordinates: { x: number, y: number }[]) {
     return { x: result.x, y: result.y }
 }
 
-export function attack(board: Board, x: number, y: number) {
+function attack(board: Board, x: number, y: number) {
     board.attack(x, y)
 
     if (board.allAreSunk) {
@@ -57,7 +57,7 @@ export function attack(board: Board, x: number, y: number) {
     }
 }
 
-export function handleGameOver() {
+function handleGameOver() {
     if (playerBoard.allAreSunk && computerBoard.allAreSunk) {
         throw Error('Indecisive game result')
     }

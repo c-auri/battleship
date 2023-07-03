@@ -1,6 +1,6 @@
-import { findBestTargets } from "../src/AI";
-import { Board } from "../src/ts/model/Board";
-import { Ship } from "../src/ts/model/Ship";
+import { findBestTargets } from "../src/controller/AI";
+import { Board } from "../src/model/Board";
+import { Ship } from "../src/model/Ship";
 
 describe('findTarget', () => {
     test('targets all neighbors of previous isolated hit', () => {

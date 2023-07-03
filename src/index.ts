@@ -1,4 +1,4 @@
 import './styles.scss'
-import { initialize } from './Controller'
+import { initialize } from './controller/Game'
 
 initialize()

@@ -1,4 +1,4 @@
-import { Board } from "../ts/model/Board"
+import { Board } from "../model/Board"
 
 export function clear(board: Board, cells: Element[], target: Element) {
     if (target.classList.contains('cell--sunk')) {

@@ -1,4 +1,4 @@
-import { initialize } from "../Controller"
+import { initialize } from "../controller/Game"
 
 const resultSpan = document.getElementById('result') as HTMLSpanElement
 const newGameButton = document.getElementById('new-game') as HTMLButtonElement
