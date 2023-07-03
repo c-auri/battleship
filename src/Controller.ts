@@ -1,15 +1,13 @@
-import { initializePlayerSide, updatePlayerSide } from './view/PlayerSide'
-import { initializeComputerSide, deactivateComputerSide, updateComputerSide } from './view/ComputerSide'
 import { Board } from './ts/model/Board'
 import { findBestTargets } from './AI'
+import { initializePlayerSide, updatePlayerSide } from './view/PlayerSide'
+import { initializeComputerSide, deactivateComputerSide, updateComputerSide } from './view/ComputerSide'
+import { hideGameOver, showGameOver } from './view/GameOver'
 
 const shipLengths = [ 5, 4, 3, 3, 2, 2 ]
 
 let playerBoard: Board
 let computerBoard: Board
-
-const buttonStart = document.getElementById('start-over')
-buttonStart?.addEventListener('click', () => initialize())
 
 export function initialize() {
     playerBoard = new Board()
@@ -18,6 +16,7 @@ export function initialize() {
     computerBoard.randomize(shipLengths)
     initializePlayerSide(playerBoard)
     initializeComputerSide(computerBoard)
+    hideGameOver()
 }
 
 export function attackComputer(x: number, y: number) {
@@ -64,4 +63,5 @@ export function handleGameOver() {
     }
 
     deactivateComputerSide()
+    showGameOver(computerBoard.allAreSunk)
 }
