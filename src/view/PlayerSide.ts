@@ -2,7 +2,6 @@ import { Board } from "../ts/model/Board"
 import { initializeShips, updateShips } from "./Ships"
 import { uncover } from "./Uncover"
 
-const divSide = document.querySelector('#player-side') as HTMLDivElement
 const divBoard = document.querySelector('#player-board') as HTMLDivElement
 const divShips = document.querySelector('#player-ships') as HTMLDivElement
 
@@ -26,17 +25,8 @@ export function initializePlayerSide(board: Board) {
     }
 
     initializeShips(board.ships, divShips)
-    divSide.classList.add('transparent')
 
     cells = Array.from(divBoard.querySelectorAll('.cell'))
-}
-
-export function setPlayerTransparency(isTransparent: boolean) {
-    if (isTransparent) {
-        divSide.classList.add('transparent')
-    } else {
-        divSide.classList.remove('transparent')
-    }
 }
 
 export function updatePlayerSide(board: Board, x: number, y: number) {

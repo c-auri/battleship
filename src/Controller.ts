@@ -1,6 +1,6 @@
-import { initializePlayerSide, setPlayerTransparency, updatePlayerSide } from './view/PlayerSide'
+import { initializePlayerSide, updatePlayerSide } from './view/PlayerSide'
 import { displayGameState, displayWinner } from './view/Display'
-import { initializeComputer, setComputerTransparency, setPlayerActivity, updateComputerSide } from './view/ComputerSide'
+import { initializeComputer, setPlayerActivity, updateComputerSide } from './view/ComputerSide'
 import { Board } from './ts/model/Board'
 import { findBestTargets } from './AI'
 
@@ -34,8 +34,6 @@ export function attackComputer(x: number, y: number) {
 }
 
 export function attackPlayer() {
-    setPlayerTransparency(false)
-    setComputerTransparency(true)
     setPlayerActivity(false)
     displayGameState('Computer turn')
 
@@ -47,8 +45,6 @@ export function attackPlayer() {
     if (playerBoard.allAreSunk) {
         handleGameOver()
     } else {
-        setPlayerTransparency(true)
-        setComputerTransparency(false)
         setPlayerActivity(true)
         displayGameState('Player turn')
     }
@@ -84,6 +80,4 @@ export function handleGameOver() {
     }
 
     setPlayerActivity(false)
-    setPlayerTransparency(false)
-    setComputerTransparency(false)
 }

@@ -169,22 +169,6 @@ main {
     background-color: var(--clr-red);
 }
 
-.transparent {
-
-    .cell {
-        opacity: var(--opacity);
-
-        &:hover {
-            cursor: default;
-            border-color: var(--clr-medium-gray);
-        }
-    }
-
-    .ships .ship .square {
-        opacity: var(--opacity);
-    }
-}
-
 .button {
     cursor: pointer;
     padding: .5rem 1.5rem;

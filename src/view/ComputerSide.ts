@@ -36,14 +36,6 @@ export function playerWon() {
     return board.allAreSunk
 }
 
-export function setComputerTransparency(isTransparent: boolean) {
-    if (isTransparent) {
-        divSide.classList.add('transparent')
-    } else {
-        divSide.classList.remove('transparent')
-    }
-}
-
 export function setPlayerActivity(isActive: boolean) {
     playerIsActive = isActive
     divSide.setAttribute('data-active', '' + isActive)
