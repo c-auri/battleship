@@ -3,13 +3,11 @@ import { Board } from "../ts/model/Board"
 import { initializeShips, updateShips } from "./Ships"
 import { uncover } from "./Uncover"
 
-const divSide = document.querySelector('#computer-side') as HTMLDivElement
 const divBoard = document.querySelector('#computer-board') as HTMLDivElement
 const divShips = document.querySelector('#computer-ships') as HTMLDivElement
 
 let board: Board
 let cells: Element[]
-let playerIsActive: boolean
 
 export function initializeComputer(board: Board) {
     divBoard.innerHTML = ''
@@ -20,14 +18,13 @@ export function initializeComputer(board: Board) {
             cell.classList.add('cell')
             cell.setAttribute('data-x', '' + x)
             cell.setAttribute('data-y', '' + y)
+            cell.classList.add('cell--clickable')
             cell.addEventListener('click', initializeAttack)
             divBoard?.appendChild(cell)
         }
     }
 
     initializeShips(board.ships, divShips)
-    divSide.setAttribute('data-active', 'true')
-    playerIsActive = true
 
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
@@ -36,15 +33,10 @@ export function playerWon() {
     return board.allAreSunk
 }
 
-export function setPlayerActivity(isActive: boolean) {
-    playerIsActive = isActive
-    divSide.setAttribute('data-active', '' + isActive)
-}
-
 function initializeAttack(event: Event) {
     const cell = event.target as Element
 
-    if (!playerIsActive || cell.classList.contains('cell--cleared')) {
+    if (!cell.classList.contains('cell--clickable')) {
         return
     }
 
@@ -57,6 +49,10 @@ function initializeAttack(event: Event) {
 export function updateComputerSide(board: Board, x: number, y: number) {
     updateCell(board, x, y)
     updateShips(board.ships, divShips)
+}
+
+export function deactivateComputerSide() {
+    cells.forEach(cell => cell.classList.remove('cell--clickable'))
 }
 
 function updateCell(board: Board, x: number, y: number) {
@@ -76,6 +72,7 @@ function updateCell(board: Board, x: number, y: number) {
     }
 
     cell.classList.add('cell--cleared')
+    cell.classList.remove('cell--clickable')
 }
 
 function getCell(x: number, y: number) {

@@ -1,6 +1,6 @@
 import { initializePlayerSide, updatePlayerSide } from './view/PlayerSide'
 import { displayGameState, displayWinner } from './view/Display'
-import { initializeComputer, setPlayerActivity, updateComputerSide } from './view/ComputerSide'
+import { initializeComputer, deactivateComputerSide, updateComputerSide } from './view/ComputerSide'
 import { Board } from './ts/model/Board'
 import { findBestTargets } from './AI'
 
@@ -34,7 +34,6 @@ export function attackComputer(x: number, y: number) {
 }
 
 export function attackPlayer() {
-    setPlayerActivity(false)
     displayGameState('Computer turn')
 
     const bestTargets = findBestTargets(playerBoard)
@@ -45,7 +44,6 @@ export function attackPlayer() {
     if (playerBoard.allAreSunk) {
         handleGameOver()
     } else {
-        setPlayerActivity(true)
         displayGameState('Player turn')
     }
 }
@@ -71,6 +69,8 @@ export function handleGameOver() {
         throw Error('Indecisive game result')
     }
 
+    deactivateComputerSide()
+
     if (computerBoard.allAreSunk) {
         displayWinner('Player')
     }
@@ -78,6 +78,4 @@ export function handleGameOver() {
     if (playerBoard.allAreSunk) {
         displayWinner('Computer')
     }
-
-    setPlayerActivity(false)
 }

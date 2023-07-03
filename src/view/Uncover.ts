@@ -6,6 +6,7 @@ export function uncover(board: Board, cells: Element[], target: Element) {
     }
 
     target.classList.add('cell--cleared')
+    target.classList.remove('cell--clickable')
 
     if (target.classList.contains('cell--ship')) {
         target.classList.add('cell--sunk')
