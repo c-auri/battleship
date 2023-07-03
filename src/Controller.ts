@@ -1,5 +1,4 @@
 import { initializePlayerSide, updatePlayerSide } from './view/PlayerSide'
-import { displayGameState, displayWinner } from './view/Display'
 import { initializeComputerSide, deactivateComputerSide, updateComputerSide } from './view/ComputerSide'
 import { Board } from './ts/model/Board'
 import { findBestTargets } from './AI'
@@ -19,7 +18,6 @@ export function initialize() {
     computerBoard.randomize(shipLengths)
     initializePlayerSide(playerBoard)
     initializeComputerSide(computerBoard)
-    displayGameState('Player turn')
 }
 
 export function attackComputer(x: number, y: number) {
@@ -34,8 +32,6 @@ export function attackComputer(x: number, y: number) {
 }
 
 function attackPlayer() {
-    displayGameState('Computer turn')
-
     const bestTargets = findBestTargets(playerBoard)
     const { x, y } = pickAtRandom(bestTargets)
     attack(playerBoard, x, y)
@@ -43,8 +39,6 @@ function attackPlayer() {
 
     if (playerBoard.allAreSunk) {
         handleGameOver()
-    } else {
-        displayGameState('Player turn')
     }
 }
 
@@ -70,12 +64,4 @@ export function handleGameOver() {
     }
 
     deactivateComputerSide()
-
-    if (computerBoard.allAreSunk) {
-        displayWinner('Player')
-    }
-
-    if (playerBoard.allAreSunk) {
-        displayWinner('Computer')
-    }
 }
