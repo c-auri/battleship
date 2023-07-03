@@ -60,7 +60,7 @@ function updateCell(board: Board, x: number, y: number) {
     const cell = getCell(x, y)
 
     if (state === 'hit' || state === 'sunk') {
-        cell.classList.add('cell--ship')
+        cell.classList.add('cell--hit')
 
         if (state === 'sunk') {
             clear(board, cells, cell)
@@ -68,7 +68,7 @@ function updateCell(board: Board, x: number, y: number) {
     }
 
     if (state === 'water') {
-        cell.classList.add('water')
+        cell.classList.add('cell--water')
     }
 
     cell.classList.add('cell--cleared')

@@ -102,7 +102,12 @@ main {
         background-color: var(--clr-green);
     }
 
-    &--cleared {
+    &--water {
+        border-color: var(--clr-blue);
+        background-color: var(--clr-blue);
+    }
+
+    &--hit {
         border-color: var(--clr-red);
         background-color: var(--clr-red);
     }
@@ -111,21 +116,7 @@ main {
         border-color: var(--clr-medium-gray);
         background-color: var(--clr-medium-gray);
     }
-}
 
-.cell--cleared.cell--player {
-    border-color: var(--clr-red);
-    background-color: var(--clr-red);
-}
-
-.cell--player.cell--sunk {
-    border-color: var(--clr-medium-gray);
-    background-color: var(--clr-medium-gray);
-}
-
-.water {
-    border-color: var(--clr-blue);
-    background-color: var(--clr-blue);
 }
 
 .ships {
