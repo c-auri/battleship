@@ -8,8 +8,6 @@
     --clr-green: seagreen;
     --clr-blue: lightsteelblue;
 
-    --opacity: .75;
-
     font-family: sans-serif;
 
     box-sizing: border-box;
@@ -100,8 +98,7 @@ main {
     gap: .1rem;
 
     &--sunk .square {
-        opacity: var(--opacity);
-        background-color: var(--clr-medium-gray) !important;
+        background-color: var(--clr-light-gray) !important;
     }
 }
 
