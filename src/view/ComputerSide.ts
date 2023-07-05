@@ -56,10 +56,10 @@ function updateCell(board: Board, x: number, y: number) {
 
     if (state === 'hit' || state === 'sunk') {
         cell.classList.add('cell--hit')
+    }
 
-        if (state === 'sunk') {
-            clear(board, cells, cell)
-        }
+    if (state === 'sunk') {
+        clear(board, cells, cell)
     }
 
     if (state === 'water') {

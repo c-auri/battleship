@@ -41,11 +41,13 @@ function updateCell(board: Board, x: number, y: number) {
     if (state === 'hit' || state === 'sunk') {
         cell.classList.add('cell--hit')
         cell.classList.add('cell--player')
+    }
 
-        if (state === 'sunk') {
-            clear(board, cells, cell)
-        }
-    } else if (state === 'water') {
+    if (state === 'sunk') {
+        clear(board, cells, cell)
+    }
+    
+    if (state === 'water') {
         cell.classList.add('cell--water')
     }
 
