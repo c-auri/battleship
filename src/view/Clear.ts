@@ -1,5 +1,8 @@
 import { Board } from "../model/Board"
 
+/**
+ * Recursively updates sunken ships and uncovers the surrounding water.
+ */
 export function clear(board: Board, cells: Element[], target: Element) {
     if (target.classList.contains('cell--sunk')) {
         return
