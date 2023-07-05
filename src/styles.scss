@@ -114,14 +114,6 @@ main {
 #computer-ships .square {
     background-color: var(--clr-red);
 }
-
-.result {
-    margin: 1rem;
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--clr-dark-gray);
-}
-
 .game-over-dialog {
     border: 1px solid var(--clr-dark-gray);
     border-radius: 15px;
@@ -129,20 +121,45 @@ main {
 }
 
 .game-over-message {
-    padding: 3rem 5rem 4rem;
-    display: grid;
-    place-items: center;
-    gap: 2rem;
+    padding-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
 }
 
-.button {
+.result {
+    margin: 2rem 6rem;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--clr-dark-gray);
+}
+
+button {
     cursor: pointer;
-    padding: .5rem 1.5rem;
-    font-size: 1rem;
 
     &:focus {
         outline: none;
     }
+}
+
+.close-button {
+    align-self: flex-end;
+    border: 0;
+    padding: 0 .25rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--clr-medium-gray);
+    background-color: transparent;
+
+    &:hover {
+        color: var(--clr-dark-gray);
+    }
+}
+
+.new-game-button {
+    padding: .5rem 1.5rem;
+    font-size: 1rem;
 }
 
 footer {
