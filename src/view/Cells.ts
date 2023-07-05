@@ -1,6 +1,5 @@
 import { Board } from "../model/Board"
 
-
 export function updateCell(board: Board, cells: Element[], x: number, y: number) {
     const cell = getCell(cells, x, y)
     const state = board.getState(x, y)
