@@ -19,12 +19,13 @@
 body {
     margin: 0;
     min-height: 100vh;
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
     background-color: var(--clr-almost-white);
 }
 
 main {
+    flex: 1;
     display: grid;
     place-items: center;
     gap: 2rem;
@@ -148,7 +149,6 @@ main {
 }
 
 footer {
-    margin-top: auto;
     padding: .5rem;
     width: 100%;
     display: flex;
