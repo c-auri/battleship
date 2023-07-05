@@ -1,6 +1,6 @@
+import { updateCell } from "./Cells"
 import { Board } from "../model/Board"
 import { initializeShips, updateShips } from "./Ships"
-import { clear } from "./Clear"
 
 const divBoard = document.querySelector('#player-board') as HTMLDivElement
 const divShips = document.querySelector('#player-ships') as HTMLDivElement
@@ -30,32 +30,6 @@ export function initializePlayerSide(board: Board) {
 }
 
 export function updatePlayerSide(board: Board, x: number, y: number) {
-    updateCell(board, x, y)
+    updateCell(board, cells, x, y)
     updateShips(board.ships, divShips)
-}
-
-function updateCell(board: Board, x: number, y: number) {
-    const cell = getCell(x, y)
-    const state = board.getState(x, y)
-
-    if (state === 'hit' || state === 'sunk') {
-        cell.classList.add('cell--hit')
-        cell.classList.add('cell--player')
-    }
-
-    if (state === 'sunk') {
-        clear(board, cells, cell)
-    }
-    
-    if (state === 'water') {
-        cell.classList.add('cell--water')
-    }
-
-    cell.classList.add('cell--cleared')
-}
-
-function getCell(x: number, y: number) {
-    return cells.find(cell =>
-        cell.getAttribute('data-x') === ''+x &&
-        cell.getAttribute('data-y') === ''+y) as HTMLDivElement
 }
