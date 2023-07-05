@@ -11,6 +11,8 @@
     --opacity: .75;
 
     font-family: sans-serif;
+
+    user-select: none;
 }
 
 body {
@@ -121,12 +123,25 @@ main {
     color: var(--clr-dark-gray);
 }
 
+.game-over-dialog {
+    border: 1px solid var(--clr-dark-gray);
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, .9);
+}
+
+.game-over-message {
+    padding: 3rem 5rem 4rem;
+    display: grid;
+    place-items: center;
+    gap: 2rem;
+}
+
 .button {
     cursor: pointer;
     padding: .5rem 1.5rem;
     font-size: 1rem;
-}
 
-.hidden {
-    visibility: hidden;
+    &:focus {
+        outline: none;
+    }
 }

@@ -10,8 +10,7 @@
 
     <main>
 
-        <span class="result hidden" id="result">You lost!</span>
-
+        
         <div class="boards">
             <div class="side" id="player-side">
                 <span class="side__name" id="player-name">Your Ships</span>
@@ -24,8 +23,13 @@
                 <div class="ships" id="computer-ships"></div>
             </div>
         </div>
-
-        <button class="button hidden" id="new-game">New Game</button>
+        
+        <dialog class="game-over-dialog" id="game-over-dialog">
+            <form class="game-over-message">
+                <p class="result" id="result">You lost!</p>
+                <button class="button" id="new-game">New Game</button>
+            </form>
+        </dialog>
 
     </main>
 

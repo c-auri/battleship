@@ -2,7 +2,7 @@ import { Board } from '../model/Board'
 import { findBestTargets } from './AI'
 import { initializePlayerSide, updatePlayerSide } from '../view/PlayerSide'
 import { initializeComputerSide, deactivateComputerSide, updateComputerSide } from '../view/ComputerSide'
-import { hideGameOver, showGameOver } from '../view/GameOver'
+import { showGameOver } from '../view/GameOver'
 
 const shipLengths = [ 5, 4, 3, 3, 2, 2 ]
 
@@ -16,7 +16,6 @@ export function initialize() {
     computerBoard.randomize(shipLengths)
     initializePlayerSide(playerBoard)
     initializeComputerSide(computerBoard)
-    hideGameOver()
 }
 
 export function attackComputer(x: number, y: number) {
@@ -33,7 +32,7 @@ export function attackComputer(x: number, y: number) {
 function attackPlayer() {
     const bestTargets = findBestTargets(playerBoard)
     const { x, y } = pickAtRandom(bestTargets)
-    attack(playerBoard, x, y)
+    playerBoard.attack(x, y)
     updatePlayerSide(playerBoard, x, y)
 
     if (playerBoard.allAreSunk) {
@@ -47,14 +46,6 @@ function pickAtRandom(coordinates: { x: number, y: number }[]) {
     const result = coordinates[randomIndex]
 
     return { x: result.x, y: result.y }
-}
-
-function attack(board: Board, x: number, y: number) {
-    board.attack(x, y)
-
-    if (board.allAreSunk) {
-        handleGameOver()
-    }
 }
 
 function handleGameOver() {
