@@ -1,7 +1,11 @@
 # Battleship
-This is the final project in the [Testing JavaScript](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript#testing-javascript) section of [The Odin Project](https://www.theodinproject.com). Since I had previous experience with unit testing, I had little trouble writing the tests themselves. To add an extra challenge, I implemented an AI that goes a bit beyond what is described in the assignment. It's by no means perfect, but it's good enough to reliably win against intuitive human players.
+![battleship](https://github.com/c-auri/battleship/assets/43008483/5e6c6441-cc3c-47d7-b679-cac330d0d971)
 
-All in all, I think this is fun project that illustrates the importance of unit tests very well. Working with jagged arrays introduces many opportunities for mixed up indices and can therefore lead to bugs that are hard to catch without a thorough test suite.
+Hosted with [GitHub Pages](https://c-auri.github.io/battleship/).
+
+This is the [final project](https://www.theodinproject.com/lessons/node-path-javascript-battleship) in the Testing JavaScript section of The Odin Project. Since I had previous experience with unit testing, I had little trouble writing the tests themselves. To add an extra challenge, I implemented an AI that goes a bit beyond what is described in the assignment. It's by no means perfect, but it's good enough to reliably win against intuitive human players.
+
+All in all, I think this is fun project that illustrates the importance of unit tests very well. Working with nested arrays introduces many opportunities for mixed up indices and can therefore lead to bugs that are hard to catch without a thorough test suite.
 
 ## Game Rules
 When looking at different implementations of the Battleship game I noticed a variety of different rules. The original game has a strictly alternating turn order and allows placing ships right next to each other. However, I saw versions that allowed follow up attacks if the first attack hit a ship and versions that did not allow ships to "touch" each other.
@@ -23,10 +27,10 @@ This very simple algorithm proves to be surprisingly effective:
 
 The combination of the first and second bullet points (prefer direct neighbors of previous hits, but avoid diagonal neighbors) makes the AI attack in a straight line once a ship is hit twice without specifying a dedicated rule for that behaviour. The capacity-based evaluation in the third bullet point then gives a nice heuristic to find the most valuable targets if no information about previous hits is available. It leads to a diagonal attack pattern that prioritizes the largest "holes" on the bord, which generally seems to be the optimal strategy to me.
 
-However, the AI does not pay attention to the potential information value of a coordinate. Since ships can not be placed directly next to each other, sinking a ship clears up all the neighboring coordinates and gives out extra information. It would therefore be advantageous to continue an initial hit with attacks in the direction that would clear up the most fog of war should they lead to the sinking of a ship.
+However, the AI does not pay attention to the potential information value of a coordinate. Since ships can not be placed directly next to each other, sinking a ship clears up all the neighboring coordinates and gives out extra information. It would therefore be advantageous to continue an initial hit with attacks in the direction that would clear up the most fog of war should they lead to the sinking of a ship. This could probably be achieved by re-using the capacity evaluation.
 
 ## Ship Placement
-The AI relies on a randomized ship placement and could be exploited by purposefully chosing sub-optimal placement strageties, e. g. placing all the ships on the edge of the board. A human player would be able to notice such behaviour and adapt their strategy in the following rounds. However, since the AI is not able to adapt like a human, I chose not to add a manual ship placement in the beginning of the game. The ships will always be placed at random for both sides to protect my precious AI.
+The AI could be exploited by purposefully chosing sub-optimal placement strageties, e. g. placing all the ships on the edge of the board. A human player would be able to notice such behaviour and adapt their strategy in the following rounds. However, since the AI is not able to adapt like a human, I chose not to add a manual ship placement in the beginning of the game. The ships will always be placed at random for both sides to protect my precious AI.
 
 
 ## Tests
@@ -119,8 +123,3 @@ Since this project is about testing, here is a printout of my test descriptions:
 Test Suites: 3 passed, 3 total
 Tests:       52 passed, 52 total
 ```
-
-## Backlog
-- Configurable placement rules:
-    - Fleet selection
-    - Disable enforced gap
