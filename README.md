@@ -12,13 +12,16 @@ When looking at different implementations of the Battleship game I noticed a var
 
 When play-testing the original version I found it too boring and decided to adopt the restricted ship placement rule, as it brings some additional tactical depth to the player choices. However, I decided against adopting the follow up attack rule, since it seemed to lead to players gaining too large of an advantage from a lucky start.
 
+## Ship Placement
+The AI could be exploited by purposefully choosing sub-optimal placement strageties, e. g. placing all the ships on the edge of the board. A human player would be able to notice such behaviour and adapt their strategy in the following rounds. However, since the AI is not able to adapt like a human, I chose not to add a manual ship placement in the beginning of the game.
+
 ## AI
 The computer player chooses their move based on an evaluation function that estimates the importance of each remaining coordinate on the game board. The algorithm is as follows:
 
 1. Give a numerical value to each coordinate on the board that is still in the fog of war:
 
-    - Minus Infinity: If the coordinate is a diagonal neighbor to a previous hit OR if the coordinate has no space in either direction to fit even the smallest remaining ship. (If either of those is true, the coordinate can not be a ship.)
-    - Infinity: If the coordinate is a direct neighbor to a previous hit. (If this is true, the coordinate has a high likelyhood to be a ship and should be preferred.)
+    - Minus Infinity: If the coordinate is a diagonal neighbor to a previous hit OR if the coordinate has no space in either direction to fit even the smallest remaining ship. (If either of those is true, there can be no ship at that coordinate.)
+    - Infinity: If the coordinate is a direct neighbor to a previous hit. (If this is true, there is a high likelihood that there is a ship at that coordinate.)
     - If neither of those things apply, calculate the value based on the coordinates capacity to fit any one of the remaining ships. The larger the biggest ship is that could fit into that coordinate, the higher the value.
 
 2. Select the coordinates with the highest numerical value and attack one of them at random.
@@ -28,10 +31,6 @@ This very simple algorithm proves to be surprisingly effective:
 The combination of the first and second bullet points (prefer direct neighbors of previous hits, but avoid diagonal neighbors) makes the AI attack in a straight line once a ship is hit twice without specifying a dedicated rule for that behaviour. The capacity-based evaluation in the third bullet point then gives a nice heuristic to find the most valuable targets if no information about previous hits is available. It leads to a diagonal attack pattern that prioritizes the largest "holes" on the bord, which generally seems to be the optimal strategy to me.
 
 However, the AI does not pay attention to the potential information value of a coordinate. Since ships can not be placed directly next to each other, sinking a ship clears up all the neighboring coordinates and gives out extra information. It would therefore be advantageous to continue an initial hit with attacks in the direction that would clear up the most fog of war should they lead to the sinking of a ship. This could probably be achieved by re-using the capacity evaluation.
-
-## Ship Placement
-The AI could be exploited by purposefully chosing sub-optimal placement strageties, e. g. placing all the ships on the edge of the board. A human player would be able to notice such behaviour and adapt their strategy in the following rounds. However, since the AI is not able to adapt like a human, I chose not to add a manual ship placement in the beginning of the game. The ships will always be placed at random for both sides to protect my precious AI.
-
 
 ## Tests
 
