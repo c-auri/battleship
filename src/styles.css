@@ -39,12 +39,12 @@ main {
     place-items: center;
     color: var(--clr-dark-gray);
     gap: 2rem;
+}
 
-    &__name {
-        text-align: center;
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
+.side__name {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .board {
@@ -57,32 +57,31 @@ main {
     aspect-ratio: 1;
     height: 2rem;
     border: 1px solid var(--clr-medium-gray);
+}
 
-    &--clickable:hover {
-        cursor: crosshair;
-        border-color: var(--clr-dark-gray);
-    }
+.cell--clickable:hover {
+    cursor: crosshair;
+    border-color: var(--clr-dark-gray);
+}
 
-    &--player {
-        border-color: var(--clr-green);
-        background-color: var(--clr-green);
-    }
+.cell--player {
+    border-color: var(--clr-green);
+    background-color: var(--clr-green);
+}
 
-    &--water {
-        border-color: var(--clr-blue);
-        background-color: var(--clr-blue);
-    }
+.cell--water {
+    border-color: var(--clr-blue);
+    background-color: var(--clr-blue);
+}
 
-    &--hit {
-        border-color: var(--clr-red);
-        background-color: var(--clr-red);
-    }
+.cell--hit {
+    border-color: var(--clr-red);
+    background-color: var(--clr-red);
+}
 
-    &--sunk {
-        border-color: var(--clr-medium-gray);
-        background-color: var(--clr-medium-gray);
-    }
-
+.cell--sunk {
+    border-color: var(--clr-medium-gray);
+    background-color: var(--clr-medium-gray);
 }
 
 .ships {
@@ -96,10 +95,10 @@ main {
 .ship {
     display: flex;
     gap: .1rem;
+}
 
-    &--sunk .square {
-        background-color: var(--clr-light-gray) !important;
-    }
+.ship--sunk .square {
+    background-color: var(--clr-light-gray) !important;
 }
 
 .square {
@@ -114,6 +113,7 @@ main {
 #computer-ships .square {
     background-color: var(--clr-red);
 }
+
 .game-over-dialog {
     border: 1px solid var(--clr-dark-gray);
     border-radius: 15px;
