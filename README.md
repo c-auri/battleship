@@ -5,8 +5,6 @@ Hosted with [GitHub Pages](https://c-auri.github.io/battleship/).
 
 This is the [final project](https://www.theodinproject.com/lessons/node-path-javascript-battleship) in the Testing JavaScript section of The Odin Project. Since I had previous experience with unit testing, I had little trouble writing the tests themselves. To add an extra challenge, I implemented an AI that goes a bit beyond what is described in the assignment. It's by no means perfect, but it's good enough to reliably win against intuitive human players.
 
-All in all, I think this is fun project that illustrates the importance of unit tests very well. Working with nested arrays introduces many opportunities for mixed up indices and can therefore lead to bugs that are hard to catch without a thorough test suite.
-
 ## Game Rules
 When looking at different implementations of the Battleship game I noticed a variety of different rules. The original game has a strictly alternating turn order and allows placing ships right next to each other. However, I saw versions that allowed follow up attacks if the first attack hit a ship and versions that did not allow ships to "touch" each other.
 
