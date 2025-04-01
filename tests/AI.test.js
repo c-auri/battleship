@@ -104,7 +104,11 @@ describe("findTarget", () => {
     })
 })
 
-function ascending(a: { x: number, y: number }, b: { x: number, y: number }) {
+/*
+ * @param {{x: number, y: number}} a
+ * @param {{x: number, y: number}} b
+ */
+function ascending(a, b) {
     if (a.x === b.x && a.y === b.y) {
         return 0
     }

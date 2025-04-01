@@ -1,6 +1,12 @@
 import { Board } from "../model/Board"
 
-export function updateCell(board: Board, cells: Element[], x: number, y: number) {
+/*
+ * @param {Board} board
+ * @param {Element[]} cells
+ * @param {number} x
+ * @param {number} y
+ */
+export function updateCell(board, cells, x, y) {
     const cell = getCell(cells, x, y)
     const state = board.getState(x, y)
 
@@ -20,16 +26,24 @@ export function updateCell(board: Board, cells: Element[], x: number, y: number)
     cell.classList.remove('cell--clickable')
 }
 
-function getCell(cells: Element[], x: number, y: number) {
+/*
+ * @param {Element[]} cells
+ * @param {number} x
+ * @param {number} y
+ */
+function getCell(cells, x, y) {
     return cells.find(cell =>
         cell.getAttribute('data-x') === ''+x &&
-        cell.getAttribute('data-y') === ''+y) as HTMLDivElement
+        cell.getAttribute('data-y') === ''+y)
 }
 
 /**
  * Recursively updates sunken ships and uncovers the surrounding water.
+ * @param {Board} board
+ * @param {Element[]} cells
+ * @param {Element} target
  */
-function clearCell(board: Board, cells: Element[], target: Element) {
+function clearCell(board, cells, target) {
     if (target.classList.contains('cell--sunk')) {
         return
     }
@@ -46,11 +60,15 @@ function clearCell(board: Board, cells: Element[], target: Element) {
     }
 }
 
-function areNeighbors(thisCell: Element, thatCell: Element) {
-    const thisX = thisCell.getAttribute('data-x') as string
-    const thisY = thisCell.getAttribute('data-y') as string
-    const thatX = thatCell.getAttribute('data-x') as string
-    const thatY = thatCell.getAttribute('data-y') as string
+/*
+ * @param {Element} thisCell
+ * @param {Element} thisCell
+ */
+function areNeighbors(thisCell, thatCell) {
+    const thisX = thisCell.getAttribute('data-x')
+    const thisY = thisCell.getAttribute('data-y')
+    const thatX = thatCell.getAttribute('data-x')
+    const thatY = thatCell.getAttribute('data-y')
 
     return Math.abs(+thisX - +thatX) <= 1
         && Math.abs(+thisY - +thatY) <= 1

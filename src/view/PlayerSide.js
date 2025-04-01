@@ -2,12 +2,16 @@ import { updateCell } from "./Cells"
 import { Board } from "../model/Board"
 import { initializeShips, updateShips } from "./Ships"
 
-const divBoard = document.querySelector('#player-board') as HTMLDivElement
-const divShips = document.querySelector('#player-ships') as HTMLDivElement
+const divBoard = document.querySelector('#player-board')
+const divShips = document.querySelector('#player-ships')
 
-let cells: Element[]
+/* @type {Element[]} cells */
+let cells
 
-export function initializePlayerSide(board: Board) {
+/*
+ * @param {Board} board
+ */
+export function initializePlayerSide(board) {
     divBoard.innerHTML = ''
 
     for (let y = 0; y < Board.Size; y++) {
@@ -29,7 +33,12 @@ export function initializePlayerSide(board: Board) {
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
 
-export function updatePlayerSide(board: Board, x: number, y: number) {
+/*
+ * @param {Board} board
+ * @param {number} x
+ * @param {number} y
+ */
+export function updatePlayerSide(board, x, y) {
     updateCell(board, cells, x, y)
     updateShips(board.ships, divShips)
 }

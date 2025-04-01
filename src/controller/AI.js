@@ -1,16 +1,23 @@
 import { Board } from "../model/Board"
 import { Ship } from "../model/Ship"
 
-type Candidate = { x: number, y: number, evaluation: number }
+/*
+ * @typedef {Object} Candidate
+ * @property {number} x
+ * @property {number} y
+ * @property {number} evaluation
+ */
 
 /**
  * Finds the best coordinates to attack for the current state of the board.
  *
  * This is done by evaluating the importance of all the remaining coordinates
  * and returning the ones with the highest evaluation.
+ * @param {Board} board
+ * @returns {{x: number, y: number}}
  */
-export function findBestTargets(board: Board): { x: number, y: number }[] {
-    const candidates: Candidate[] = []
+export function findBestTargets(board) {
+    const candidates = []
     let bestEvaluation = -Infinity
 
     for (let x = 0; x < Board.Size; x++) {
@@ -28,7 +35,12 @@ export function findBestTargets(board: Board): { x: number, y: number }[] {
         .map(({ x, y }) => ({ x, y }))
 }
 
-function evaluate(board: Board, x: number, y: number) {
+/*
+ * @param {Board} board
+ * @param {number} x
+ * @param {number} y
+ */
+function evaluate(board, x, y) {
     if (mustBeWater(board, x, y)) {
         return -Infinity
     }
@@ -40,21 +52,36 @@ function evaluate(board: Board, x: number, y: number) {
     return calculateTotalCapacity(board, x, y)
 }
 
-function mustBeWater(board: Board, x: number, y: number) {
+/*
+ * @param {Board} board
+ * @param {number} x
+ * @param {number} y
+ */
+function mustBeWater(board, x, y) {
     const smallestLength = Math.min(...getShipLengthsInPlay(board))
 
     return diagonalNeighborIsHit(board, x, y)
         || calculateCapacity(board, x, y, smallestLength) === 0
 }
 
-function directNeighborIsHit(board: Board, x: number, y: number) {
+/*
+ * @param {Board} board
+ * @param {number} x
+ * @param {number} y
+ */
+function directNeighborIsHit(board, x, y) {
     return x > 0 && isHit(board, x - 1, y)
         || y > 0 && isHit(board, x, y - 1)
         || x < Board.Size - 1 && isHit(board, x + 1, y)
         || y < Board.Size - 1 && isHit(board, x, y + 1)
 }
 
-function diagonalNeighborIsHit(board: Board, x: number, y: number) {
+/*
+ * @param {Board} board
+ * @param {number} x
+ * @param {number} y
+ */
+function diagonalNeighborIsHit(board, x, y) {
     return x > 0 && y > 0 && isHit(board, x - 1, y - 1)
         || x > 0 && y < Board.Size - 1 && isHit(board, x - 1, y + 1)
         || y > 0 && x < Board.Size - 1 && isHit(board, x + 1, y - 1)
@@ -64,8 +91,11 @@ function diagonalNeighborIsHit(board: Board, x: number, y: number) {
 /**
  * Calculates how many ways there are to fit any of the remaining ships
  * through the given coordinate, weighted by the length of the respective ship.
+ * @param {Board} board
+ * @param {number} x
+ * @param {number} y
  */
-function calculateTotalCapacity(board: Board, x: number, y: number) {
+function calculateTotalCapacity(board, x, y) {
     let capacity = 0
 
     for (const length of getShipLengthsInPlay(board)) {
@@ -78,13 +108,12 @@ function calculateTotalCapacity(board: Board, x: number, y: number) {
 /**
  * Calculates how many ways there are to fit a ship
  * with the given length through the given coordinate.
+ * @param {Board} board
+ * @param {number} x
+ * @param {number} y
+ * @param {number} length
  */
-function calculateCapacity(
-    board: Board,
-    x: number,
-    y: number,
-    length: number
-) {
+function calculateCapacity(board, x, y, length) {
     if (length < Ship.minLength || length > Ship.maxLength) {
         throw new Error('Length out of bounds: ' + length)
     }
@@ -125,10 +154,18 @@ function calculateCapacity(
     return Math.max(0, horizontalCapacity + verticalCapacity)
 }
 
-function getShipLengthsInPlay(board: Board) {
+/*
+ * @param {Board} board
+ */
+function getShipLengthsInPlay(board) {
     return board.ships.filter(s => !s.isSunk).map(s => s.length)
 }
 
-function isHit(board: Board, x: number, y: number) {
+/*
+ * @param {Board} board
+ * @param {number} x
+ * @param {number} y
+ */
+function isHit(board, x, y) {
     return board.getState(x, y) === "hit"
 }

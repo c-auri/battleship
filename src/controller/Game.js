@@ -6,8 +6,11 @@ import { showGameOver } from '../view/GameOver'
 
 const shipLengths = [ 5, 4, 3, 3, 2, 2 ]
 
-let playerBoard: Board
-let computerBoard: Board
+/** @type {Board} */
+let playerBoard
+
+/** @type {Board} */
+let computerBoard
 
 export function initialize() {
     playerBoard = new Board()
@@ -18,7 +21,11 @@ export function initialize() {
     initializeComputerSide(computerBoard)
 }
 
-export function attackComputer(x: number, y: number) {
+/*
+ * @param {number} x
+ * @param {number} y
+ */
+export function attackComputer(x, y) {
     computerBoard.attack(x, y)
     updateComputerSide(computerBoard, x, y)
 
@@ -40,7 +47,10 @@ function attackPlayer() {
     }
 }
 
-function pickAtRandom(coordinates: { x: number, y: number }[]) {
+/*
+ * @param {{a: number, b: number}} coordinates
+ */
+function pickAtRandom(coordinates) {
     const maxIndex = coordinates.length - 1
     const randomIndex = Math.round(Math.random() * maxIndex)
     const result = coordinates[randomIndex]

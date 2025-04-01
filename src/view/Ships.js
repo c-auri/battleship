@@ -1,6 +1,8 @@
-import { Ship } from "../model/Ship";
-
-export function initializeShips(ships: Ship[], divShips: HTMLDivElement) {
+/*
+ * @param {Ship[]} ships
+ * @param {HTMLDivElement} divShips
+ */
+export function initializeShips(ships, divShips) {
     divShips.innerHTML = ''
 
     for (let id = 0; id < ships.length; id++) {
@@ -17,10 +19,14 @@ export function initializeShips(ships: Ship[], divShips: HTMLDivElement) {
     }
 }
 
-export function updateShips(ships: Ship[], divShips: HTMLDivElement) {
+/*
+ * @param {Ship[]} ships
+ * @param {HTMLDivElement} divShips
+ */
+export function updateShips(ships, divShips) {
     for (let id = 0; id < ships.length; id++) {
         if (ships[id].isSunk) {
-            const divShip = divShips.querySelector(`.ship[data-id="${id}"`) as HTMLDivElement
+            const divShip = divShips.querySelector(`.ship[data-id="${id}"`)
             divShip.classList.add('ship--sunk')
         }
     }

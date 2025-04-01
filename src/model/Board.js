@@ -1,10 +1,24 @@
 import { Ship } from "./Ship"
 
-export type State = "fog" | "water" | "hit" | "sunk"
-interface Cell { shipId: number, isFog: boolean, isClear: boolean }
+/*
+ * @typedef {('fog'|'water'|'hit'|'sunk')} State
+ */
 
-export type Orientation = 'horizontal' | 'vertical'
+/*
+ * @typedef Cell
+ * @type Object
+ * @property {number} shipId
+ * @property {boolean} isFog
+ * @property {boolean} isClear
+ */
 
+/*
+ * @typedef {('horitontal'| 'vertical')} Orientation
+ */
+
+/*
+ * @typedef {} Board
+ */
 export class Board {
     static #SIZE = 10
 
@@ -12,8 +26,11 @@ export class Board {
         return Board.#SIZE
     }
 
-    #ships: Ship[]
-    #cells: Cell[][]
+    /** @type {Ship[]} */
+    #ships
+
+    /** @type {Cell[][]} */
+    #cells
 
     constructor() {
         this.#ships = []
@@ -36,12 +53,19 @@ export class Board {
         return this.#ships.every(ship => ship.isSunk)
     }
 
-    randomize(lengths: number[]) {
+    /*
+     * @param {number[]} lengths
+     */
+    randomize(lengths) {
         for (const length of lengths) {
             const ship = new Ship(length)
-            let x: number
-            let y: number
-            let orientation: Orientation
+
+            /** type {number} */
+            let x
+            /** type {number} */
+            let y
+            /** type {Orientation} */
+            let orientation
 
             do {
                 x = Math.round(Math.random() * 9)
@@ -53,11 +77,19 @@ export class Board {
         }
     }
 
-    isShip(x: number, y: number) {
+    /*
+     * @param {number} x
+     * @param {number} y
+     */
+    isShip(x, y) {
         return this.#cells[x][y].shipId >= 0
     }
 
-    getState(x: number, y: number) {
+    /*
+     * @param {number} x
+     * @param {number} y
+     */
+    getState(x, y) {
         this.#validateCoordinate(x, y)
 
         const cell = this.#cells[x][y]
@@ -73,7 +105,13 @@ export class Board {
         }
     }
 
-    place(ship: Ship, x: number, y: number, orientation: Orientation) {
+    /*
+     * @param {Ship} ship
+     * @param {number} x
+     * @param {number} y
+     * @param {Orientation} orientation
+     */
+    place(ship, x, y, orientation) {
         this.#validateCoordinate(x, y)
 
         if (!this.#isValidPlacement(ship, x, y, orientation)) {
@@ -92,7 +130,11 @@ export class Board {
         }
     }
 
-    attack(x: number, y: number) {
+    /*
+     * @param {number} x
+     * @param {number} y
+     */
+    attack(x, y) {
         this.#validateCoordinate(x, y)
 
         const cell = this.#cells[x][y]
@@ -116,7 +158,11 @@ export class Board {
         }
     }
 
-    #clear(x: number, y: number) {
+    /*
+     * @param {number} x
+     * @param {number} y
+     */
+    #clear(x, y) {
         const cell = this.#cells[x][y]
 
         if (cell.isClear) {
@@ -133,8 +179,14 @@ export class Board {
         }
     }
 
-    #getNeighbors(x: number, y: number) {
-        const result: { x: number, y: number }[] = []
+    /*
+     * @param {number} x
+     * @param {number} y
+     */
+    #getNeighbors(x, y) {
+
+        /** @typedef {x:number, y:number} */
+        const result = []
 
         if (x > 0) {
             result.push({ x: x - 1, y: y })
@@ -171,12 +223,13 @@ export class Board {
         return result
     }
 
-    #isValidPlacement(
-        ship: Ship,
-        x: number,
-        y: number,
-        orientation: Orientation
-    ) {
+    /*
+     * @param {Ship} ship
+     * @param {number} x
+     * @param {number} y
+     * @param {Orientation} orientation
+     */
+    #isValidPlacement(ship, x, y, orientation) {
         const isHorizontal = orientation === 'horizontal'
         if ((isHorizontal && x + ship.length > Board.#SIZE) ||
             (!isHorizontal && y + ship.length > Board.#SIZE)
@@ -186,7 +239,7 @@ export class Board {
 
         for (let i = -1; i <= ship.length; i++) {
             for (let j = -1; j <= +1; j++) {
-                let cell: Cell
+                let cell
 
                 try {
                     if (isHorizontal) {
@@ -207,7 +260,11 @@ export class Board {
         return true
     }
 
-    #validateCoordinate(x: number, y: number) {
+    /*
+     * @param {number} x
+     * @param {number} y
+     */
+    #validateCoordinate(x, y) {
         if (x < 0 || y < 0 || x >= Board.#SIZE || y >= Board.#SIZE) {
             throw new Error(`Invalid coordinate: ${x}, ${y}`)
         }

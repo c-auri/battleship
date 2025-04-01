@@ -10,10 +10,16 @@ export class Ship {
         return Ship.#MAX_LENGTH
     }
 
-    #length: number
-    #numberOfHits: number
+    /** type {number} */
+    #length
 
-    constructor(length: number) {
+    /** type {number} */
+    #numberOfHits
+
+    /*
+     * @param {number} lenght
+     */
+    constructor(length) {
         if (length < Ship.#MIN_LENGTH || length > Ship.#MAX_LENGTH) {
             throw new Error('Ship length out of bounds: ' + length)
         }

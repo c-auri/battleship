@@ -3,12 +3,16 @@ import { updateCell } from "./Cells"
 import { Board } from "../model/Board"
 import { initializeShips, updateShips } from "./Ships"
 
-const divBoard = document.querySelector('#computer-board') as HTMLDivElement
-const divShips = document.querySelector('#computer-ships') as HTMLDivElement
+const divBoard = document.querySelector('#computer-board')
+const divShips = document.querySelector('#computer-ships')
 
-let cells: Element[]
+/** @type {Element[]} cells */
+let cells
 
-export function initializeComputerSide(board: Board) {
+/*
+ * @param {Board} board
+ */
+export function initializeComputerSide(board) {
     divBoard.innerHTML = ''
 
     for (let y = 0; y < Board.Size; y++) {
@@ -28,7 +32,12 @@ export function initializeComputerSide(board: Board) {
     cells = Array.from(divBoard.querySelectorAll('.cell'))
 }
 
-export function updateComputerSide(board: Board, x: number, y: number) {
+/*
+ * @param {Board} board
+ * @param {number} x
+ * @param {number} y
+ */
+export function updateComputerSide(board, x, y) {
     updateCell(board, cells, x, y)
     updateShips(board.ships, divShips)
 }
@@ -37,15 +46,18 @@ export function deactivateComputerSide() {
     cells.forEach(cell => cell.classList.remove('cell--clickable'))
 }
 
-function attack(event: Event) {
-    const cell = event.target as Element
+/*
+ * @param {Event} event
+ */
+function attack(event) {
+    const cell = event.target
 
     if (!cell.classList.contains('cell--clickable')) {
         return
     }
 
-    const x = cell.getAttribute('data-x') as string
-    const y = cell.getAttribute('data-y') as string
+    const x = cell.getAttribute('data-x')
+    const y = cell.getAttribute('data-y')
 
     attackComputer(+x, +y)
 }

@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const ESLintPlugin = require('eslint-webpack-plugin')
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/index.js',
   mode: 'development',
   devtool: 'source-map',
   optimization: {
@@ -19,15 +16,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader',
+          test: /\.[jt]sx?$/,
+          loader: 'esbuild-loader',
           options: {
-            // disable type checker - we will use it in fork plugin
-            transpileOnly: true
+              target: 'es2015'
           }
-        }
       },
       {
         test: /\.(css)$/,
@@ -41,7 +34,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.js']
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -53,11 +46,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Battleship',
       template: './src/index.html'
-    }),
-    new ForkTsCheckerWebpackPlugin(),
-    new ESLintPlugin({
-      extensions: ['.tsx', '.ts', '.js'],
-      exclude: 'node_modules'
     })
   ]
 };
