@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Battleship</title>
 </head>
 <body>
 
     <main>
-        
+
         <div class="boards">
             <div class="side" id="player-side">
                 <span class="side__name" id="player-name">Your Ships</span>
@@ -22,7 +23,7 @@
                 <div class="ships" id="computer-ships"></div>
             </div>
         </div>
-        
+
         <dialog class="game-over-dialog" id="game-over-dialog">
             <form class="game-over-message">
                 <button class="close-button" id="close-button" type="button">&#x2715;</button>
@@ -32,7 +33,7 @@
         </dialog>
 
     </main>
-    
+
     <footer>
         <span>&copy; <a href="https://github.com/c-auri">c-auri</a> 2023</span>
         <span class="links">
@@ -42,4 +43,5 @@
     </footer>
 
 </body>
+<script src="./script.js" defer></script>
 </html>
